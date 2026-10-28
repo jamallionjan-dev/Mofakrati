@@ -1,0 +1,17 @@
+{
+    "permissions":  [
+                        "core:default",
+                        "store:default",
+                        "sql:default",
+                        "sql:allow-execute",
+                        "updater:default",
+                        "process:default",
+                        "window-state:default"
+                    ],
+    "description":  "Mufakkirati permissions",
+    "$schema":  "../gen/schemas/desktop-schema.json",
+    "identifier":  "default",
+    "windows":  [
+                    "main"
+                ]
+}
