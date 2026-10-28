@@ -11,7 +11,8 @@
                         "core:window:allow-start-resize-dragging",
                         "core:window:allow-toggle-maximize",
                         "core:window:allow-minimize",
-                        "dialog:default"
+                        "dialog:default",
+                        "opener:default"
                     ],
     "description":  "Mufakkirati permissions",
     "$schema":  "../gen/schemas/desktop-schema.json",

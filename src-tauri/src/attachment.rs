@@ -31,3 +31,14 @@ pub fn import_attachment(a:tauri::AppHandle,source_path:String)->Result<Imported
  fs::copy(src,&dst).map_err(|e|e.to_string())?;
  Ok(ImportedAttachment{id,kind,path:dst.to_string_lossy().to_string(),display_name:name})
 }
+#[tauri::command]
+pub fn discard_attachment(a:tauri::AppHandle,path:String)->Result<(),String>{
+ let root=a.path().app_data_dir().map_err(|e|e.to_string())?.join("attachments");
+ let target=Path::new(&path);
+ if !target.exists(){return Ok(());}
+ let root_canon=fs::canonicalize(&root).map_err(|e|e.to_string())?;
+ let target_canon=fs::canonicalize(target).map_err(|e|e.to_string())?;
+ if !target_canon.starts_with(&root_canon){return Err("refusing path outside attachment storage".into());}
+ fs::remove_file(target_canon).map_err(|e|e.to_string())?;
+ Ok(())
+}

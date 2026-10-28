@@ -398,6 +398,11 @@
   .more{color:#7790b0;font-size:20px}
   .note p{margin:10px 0;color:#5f6f86;font-size:13.5px;line-height:1.7}
   .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .attachment-picker-row{display:flex;gap:10px;flex-wrap:wrap}
+  .attachment-list,.note-attachments{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .attachment-pill,.note-attachment{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:10px;background:rgba(var(--accent-rgb),.08);font-size:12px;max-width:220px}
+  .attachment-pill span,.note-attachment span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .attachment-remove{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:15px;padding:0 2px}
   .chip{
     padding:4px 8px;border-radius:10px;font-size:11px;font-weight:700;
     background:rgba(71,127,255,.08);color:#5772a0;
@@ -962,6 +967,7 @@ body::before{
       <label>العمود</label>
       <select id="noteColumn"></select>
     </div>
+    <div class="field"><label>&#x0627;&#x0644;&#x0645;&#x0631;&#x0641;&#x0642;&#x0627;&#x062a;</label><div class="attachment-picker-row"><button class="secondary" type="button" id="addAttachmentBtn">&#x1F4CE; &#x0625;&#x0631;&#x0641;&#x0627;&#x0642; &#x0645;&#x0644;&#x0641;</button></div><div class="attachment-list" id="pendingAttachments"></div></div>
     <div class="modal-actions">
       <button class="primary-btn" id="saveNote">حفظ الملاحظة</button>
       <button class="secondary" id="cancelNote">إلغاء</button>
@@ -1163,6 +1169,7 @@ body::before{
 
     renderColumnSelect();
     wireMiniAddButtons();
+    wireAttachmentOpeners();
     wireDragAndDrop();
     applySearch();
   }
@@ -1177,6 +1184,7 @@ body::before{
         </div>
         <p>${escapeHtml(note.text)}</p>
         ${note.chips && note.chips.length ? `<div class="chips">${note.chips.map(c=>`<span class="chip">${escapeHtml(c)}</span>`).join('')}</div>` : ''}
+        ${note.attachments && note.attachments.length ? `<div class="note-attachments">${note.attachments.map(a=>`<div class="note-attachment" data-attachment-id="${escapeHtml(a.id||'')}" title="${escapeHtml(a.displayName||'')}">&#x1F4CE;<span>${escapeHtml(a.displayName||'attachment')}</span></div>`).join('')}</div>` : ''}
         <div class="note-foot">
           <span class="date">${escapeHtml(note.date)}</span>
           <div class="stars">${starMarkup(Number(note.rating||0))}</div>
@@ -1193,7 +1201,11 @@ body::before{
   function wireMiniAddButtons(){
     document.querySelectorAll('[data-add]').forEach(btn=>{
       btn.onclick = ()=> openNoteModal(btn.dataset.add);
-    });
+    }
+
+  function wireAttachmentOpeners(){
+    document.querySelectorAll('.note-attachment').forEach(el=>{el.style.cursor='pointer';el.onclick=e=>{e.stopPropagation();const noteEl=el.closest('.note'),note=getNoteById(noteEl?.dataset.noteId),aid=el.dataset.attachmentId;const a=(note?.attachments||[]).find(x=>x.id===aid);if(a?.path)window.__desktopOpenAttachment?.(a.path)}});
+  });
   }
 
   function getNoteById(id){
@@ -1606,15 +1618,22 @@ body::before{
 
   // note modal
   const noteModal = document.getElementById('noteModal');
+  const pendingAttachmentsEl=document.getElementById('pendingAttachments');
+  let pendingAttachments=[];
+  function renderPendingAttachments(){if(!pendingAttachmentsEl)return;pendingAttachmentsEl.innerHTML=pendingAttachments.map((a,i)=>`<div class="attachment-pill"><span>${escapeHtml(a.displayName||'attachment')}</span><button type="button" class="attachment-remove" data-remove-attachment="${i}">&times;</button></div>`).join('');pendingAttachmentsEl.querySelectorAll('[data-remove-attachment]').forEach(b=>b.onclick=async()=>{const i=Number(b.dataset.removeAttachment),a=pendingAttachments[i];pendingAttachments.splice(i,1);renderPendingAttachments();await window.__desktopDiscardAttachment?.(a?.path)})}
+  document.getElementById('addAttachmentBtn').onclick=async()=>{const a=await window.__desktopPickAttachment?.();if(!a)return;pendingAttachments.push({id:a.id,kind:a.kind,path:a.path,displayName:a.display_name||a.displayName||''});renderPendingAttachments()};
   function openNoteModal(columnId='personal'){
+    pendingAttachments=[];renderPendingAttachments();
     document.getElementById('noteColumn').value = columnId;
     noteModal.classList.add('open');
     setTimeout(()=>document.getElementById('noteTitle').focus(),50);
   }
   function closeNoteModal(){
+    const abandoned=[...pendingAttachments];pendingAttachments=[];renderPendingAttachments();abandoned.forEach(a=>window.__desktopDiscardAttachment?.(a.path));
     noteModal.classList.remove('open');
     document.getElementById('noteTitle').value = '';
     document.getElementById('noteText').value = '';
+    pendingAttachments=[];renderPendingAttachments();
   }
 
   document.getElementById('addBtn').onclick = ()=> openNoteModal(state.columns[0].id);
@@ -1625,6 +1644,7 @@ body::before{
     const title = document.getElementById('noteTitle').value.trim() || 'ملاحظة بدون عنوان';
     const text = document.getElementById('noteText').value.trim() || 'لا يوجد محتوى بعد.';
     const colId = document.getElementById('noteColumn').value;
+    const committedAttachments=pendingAttachments.map(a=>({...a}));pendingAttachments=[];renderPendingAttachments();
     state.notes[colId].unshift({
       id:id(),
       emoji:'📝',
@@ -1632,7 +1652,8 @@ body::before{
       text,
       date:new Date().toLocaleDateString('en-CA'),
       rating:0,
-      chips:[]
+      chips:[],
+      attachments:committedAttachments
     });
     saveState();
     renderBoard();

@@ -32,9 +32,10 @@ pub fn run(){
  .plugin(tauri_plugin_store::Builder::default().build())
  .plugin(tauri_plugin_process::init())
 .plugin(tauri_plugin_dialog::init())
+.plugin(tauri_plugin_opener::init())
  .plugin(tauri_plugin_window_state::Builder::default().build())
  .plugin(tauri_plugin_sql::Builder::default().add_migrations("sqlite:mufakkirati.db",m).build())
- .invoke_handler(tauri::generate_handler![app_version,hide_main_window,window_action,persistence::persist_state_atomic,attachment::import_attachment])
+ .invoke_handler(tauri::generate_handler![app_version,hide_main_window,window_action,persistence::persist_state_atomic,attachment::import_attachment,attachment::discard_attachment])
  .setup(|a|{
   let show=MenuItem::with_id(a,"show","Show",true,None::<&str>)?;
   let quit=MenuItem::with_id(a,"quit","Quit",true,None::<&str>)?;

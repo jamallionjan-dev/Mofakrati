@@ -7,6 +7,7 @@ pub async fn persist_state_atomic(a:tauri::AppHandle,state:serde_json::Value)->R
  let o=SqliteConnectOptions::new().filename(&p).create_if_missing(true);
  let mut c=SqliteConnection::connect_with(&o).await.map_err(|e|e.to_string())?;
  sqlx::query("PRAGMA foreign_keys=ON").execute(&mut c).await.map_err(|e|e.to_string())?;
+ let attachment_root=a.path().app_data_dir().map_err(|e|e.to_string())?.join("attachments");
  let mut tx=c.begin().await.map_err(|e|e.to_string())?;
  let json=serde_json::to_string(&state).map_err(|e|e.to_string())?;
  sqlx::query("INSERT INTO app_meta(key,value,updated_at) VALUES('state',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(json).execute(&mut *tx).await.map_err(|e|e.to_string())?;
@@ -14,6 +15,7 @@ pub async fn persist_state_atomic(a:tauri::AppHandle,state:serde_json::Value)->R
  let notes=state.get("notes").and_then(|v|v.as_object());
  let mut keep_cols=HashSet::new();
  let mut keep_notes=HashSet::new();
+ let mut keep_attachments=HashSet::new();
  for (ci,col) in cols.iter().enumerate(){
   let id=match col.get("id").and_then(|v|v.as_str()){Some(v)=>v,None=>continue};
   keep_cols.insert(id.to_string());
@@ -39,13 +41,27 @@ pub async fn persist_state_atomic(a:tauri::AppHandle,state:serde_json::Value)->R
       }
      }
     }
+     if let Some(atts)=n.get("attachments").and_then(|v|v.as_array()){
+      for a in atts{
+       let aid=match a.get("id").and_then(|v|v.as_str()){Some(v)=>v,None=>continue};
+       keep_attachments.insert(aid.to_string());
+       let kind=a.get("kind").and_then(|v|v.as_str()).unwrap_or("file");
+       let path=a.get("path").and_then(|v|v.as_str()).unwrap_or("");
+       let name=a.get("displayName").or_else(||a.get("display_name")).and_then(|v|v.as_str()).unwrap_or("");
+       sqlx::query("INSERT INTO attachments(id,note_id,kind,path,display_name,created_at) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(id) DO UPDATE SET note_id=excluded.note_id,kind=excluded.kind,path=excluded.path,display_name=excluded.display_name").bind(aid).bind(nid).bind(kind).bind(path).bind(name).execute(&mut *tx).await.map_err(|e|e.to_string())?;
+      }
+     }
    }
   }
  }
+ let old_atts:Vec<(String,String)>=sqlx::query_as("SELECT id,path FROM attachments").fetch_all(&mut *tx).await.map_err(|e|e.to_string())?;
+ let mut stale_attachment_paths=Vec::new();
+ for (aid,path) in old_atts{if !keep_attachments.contains(&aid){stale_attachment_paths.push(path);sqlx::query("DELETE FROM attachments WHERE id=?").bind(aid).execute(&mut *tx).await.map_err(|e|e.to_string())?;}}
  let old_notes:Vec<(String,)>=sqlx::query_as("SELECT id FROM notes").fetch_all(&mut *tx).await.map_err(|e|e.to_string())?;
  for (id,) in old_notes{if !keep_notes.contains(&id){sqlx::query("DELETE FROM notes WHERE id=?").bind(id).execute(&mut *tx).await.map_err(|e|e.to_string())?;}}
  let old_cols:Vec<(String,)>=sqlx::query_as("SELECT id FROM columns").fetch_all(&mut *tx).await.map_err(|e|e.to_string())?;
  for (id,) in old_cols{if !keep_cols.contains(&id){sqlx::query("DELETE FROM columns WHERE id=?").bind(id).execute(&mut *tx).await.map_err(|e|e.to_string())?;}}
  tx.commit().await.map_err(|e|e.to_string())?;
+ if let Ok(root_canon)=std::fs::canonicalize(&attachment_root){for path in stale_attachment_paths{if let Ok(target_canon)=std::fs::canonicalize(&path){if target_canon.starts_with(&root_canon){let _=std::fs::remove_file(target_canon);}}}}
  Ok(())
 }

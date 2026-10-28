@@ -3,6 +3,7 @@ import {getCurrentWindow} from "@tauri-apps/api/window";
 import Database from "@tauri-apps/plugin-sql";
 import {load} from "@tauri-apps/plugin-store";
 import {open} from "@tauri-apps/plugin-dialog";
+import {openPath} from "@tauri-apps/plugin-opener";
 
 let db=null,store=null,timer=null;
 
@@ -32,6 +33,8 @@ window.__desktopSave=state=>{
 };
 
 window.__desktopPickAttachment=async()=>{try{const p=await open({multiple:false,directory:false});if(!p)return null;return await invoke("import_attachment",{sourcePath:p})}catch(e){console.error("attachment-picker",e);return null}};
+window.__desktopDiscardAttachment=async path=>{if(!path)return;try{await invoke("discard_attachment",{path})}catch(e){console.error("attachment-discard",e)}};
+window.__desktopOpenAttachment=async path=>{if(!path)return;try{await openPath(path)}catch(e){console.error("attachment-open",e)}};
 
 async function hydrate(){try{await ensure();const c=await db.select("SELECT id,title,position FROM columns ORDER BY position,id");if(c.length){const n=await db.select("SELECT id,column_id,title,body,rating,position,emoji,note_date FROM notes ORDER BY column_id,position,id"),t=await db.select("SELECT note_id,tag FROM note_tags ORDER BY note_id,tag"),a=await db.select("SELECT id,note_id,kind,path,display_name FROM attachments ORDER BY created_at,id"),m=await db.select("SELECT value FROM app_meta WHERE key=$1 LIMIT 1",["state"]);let r={};try{if(m[0]?.value)r=JSON.parse(m[0].value)||{}}catch{}const oc=new Map((r.columns||[]).map(x=>[x.id,x])),tm=new Map;for(const x of t){if(!tm.has(x.note_id))tm.set(x.note_id,[]);tm.get(x.note_id).push(x.tag)}const h={...r,theme:(await store.get("theme"))||r.theme||"blue",notebookName:(await store.get("notebookName"))||r.notebookName||"",profileImage:(await store.get("profileImage"))||r.profileImage||"",viewLayout:(await store.get("viewLayout"))||r.viewLayout||"columns",viewSettings:(await store.get("viewSettings"))||r.viewSettings||{},columns:c.map(x=>{const o=oc.get(x.id)||{};return{id:x.id,label:x.title||"",icon:o.icon||"",className:o.className||x.id}}),notes:{}};for(const x of h.columns)h.notes[x.id]=n.filter(q=>q.column_id===x.id).map(q=>({id:q.id,emoji:q.emoji||"",title:q.title||"",text:q.body||"",date:q.note_date||"",rating:Number(q.rating||0),chips:tm.get(q.id)||[],attachments:a.filter(z=>z.note_id===q.id).map(z=>({id:z.id,kind:z.kind,path:z.path,displayName:z.display_name}))}));const j=JSON.stringify(h),l=localStorage.getItem("jamal-notes-prototype-v2");if(j!==l&&!sessionStorage.getItem("db-hydrated-normalized")){sessionStorage.setItem("db-hydrated-normalized","1");localStorage.setItem("jamal-notes-prototype-v2",j);location.reload();return}}if(window.__notebookState)await persistState(window.__notebookState)}catch(e){console.error("hydrate",e)}}
 

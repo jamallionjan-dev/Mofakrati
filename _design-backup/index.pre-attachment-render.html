@@ -1,0 +1,1921 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مفكرة جمال — معاينة V9 Views</title>
+<style>
+  :root{
+    --bg:#eef6ff;
+    --ink:#14213d;
+    --muted:#6e7c93;
+    --glass:rgba(255,255,255,.72);
+    --glass-2:rgba(255,255,255,.44);
+    --shadow:0 18px 55px rgba(63,91,141,.18);
+    --blue:#2f80ff;
+    --cyan:#54d6ff;
+    --pink:#ff6bd6;
+    --accent:#2f80ff;
+    --accent-2:#69d8ff;
+    --accent-rgb:47,128,255;
+    --theme-tint:rgba(47,128,255,.10);
+    --page-a:#f4f9ff;
+    --page-b:#edf6ff;
+    --page-c:#f8f3ff;
+    --panel:rgba(255,255,255,.86);
+    --panel-2:rgba(245,250,255,.74);
+    --card-a:rgba(255,255,255,.78);
+    --card-b:rgba(255,255,255,.52);
+    --ink:#14213d;
+    --muted:#6e7c93;
+    --profile-a:#4ba9ff;
+    --profile-b:#8b69ff;
+  }
+
+  body[data-theme="white"]{
+    --accent:#8293a8; --accent-2:#d8e0ea; --accent-rgb:130,147,168;
+    --theme-tint:rgba(160,178,198,.11);
+    --page-a:#fdfefe; --page-b:#f4f7fa; --page-c:#eef2f6;
+    --panel:rgba(255,255,255,.93); --panel-2:rgba(248,250,252,.86);
+    --card-a:rgba(255,255,255,.94); --card-b:rgba(245,248,251,.82);
+    --ink:#243449; --muted:#78889b;
+    --profile-a:#aebdcb; --profile-b:#7f91a5;
+  }
+  body[data-theme="black"]{
+    --accent:#202938; --accent-2:#6d7d94; --accent-rgb:32,41,56;
+    --theme-tint:rgba(24,31,43,.20);
+    --page-a:#111722; --page-b:#1a2230; --page-c:#252e3d;
+    --panel:rgba(25,33,46,.91); --panel-2:rgba(18,25,36,.88);
+    --card-a:rgba(47,57,72,.88); --card-b:rgba(30,39,53,.80);
+    --ink:#edf4ff; --muted:#aab7ca;
+    --profile-a:#55657c; --profile-b:#222c3a;
+  }
+  body[data-theme="yellow"]{
+    --accent:#efb200; --accent-2:#ffe680; --accent-rgb:239,178,0;
+    --theme-tint:rgba(255,207,54,.14);
+    --page-a:#fffaf0; --page-b:#fff4cf; --page-c:#fff9e7;
+    --panel:rgba(255,251,235,.91); --panel-2:rgba(255,245,204,.78);
+    --card-a:rgba(255,254,244,.92); --card-b:rgba(255,246,211,.72);
+    --ink:#4e3b09; --muted:#86764c;
+    --profile-a:#ffd45d; --profile-b:#eea800;
+  }
+  body[data-theme="red"]{
+    --accent:#e9434f; --accent-2:#ff9298; --accent-rgb:233,67,79;
+    --theme-tint:rgba(233,67,79,.12);
+    --page-a:#fff4f5; --page-b:#ffe6e8; --page-c:#fff8f8;
+    --panel:rgba(255,246,247,.91); --panel-2:rgba(255,228,231,.76);
+    --card-a:rgba(255,250,250,.92); --card-b:rgba(255,232,234,.72);
+    --ink:#5a1f24; --muted:#93666a;
+    --profile-a:#ff7f87; --profile-b:#d93642;
+  }
+  body[data-theme="pink"]{
+    --accent:#ea62b2; --accent-2:#ffb0df; --accent-rgb:234,98,178;
+    --theme-tint:rgba(234,98,178,.13);
+    --page-a:#fff5fb; --page-b:#ffe8f6; --page-c:#fff7fc;
+    --panel:rgba(255,247,252,.91); --panel-2:rgba(255,229,246,.76);
+    --card-a:rgba(255,252,254,.92); --card-b:rgba(255,234,247,.72);
+    --ink:#5a2450; --muted:#936f8b;
+    --profile-a:#ff9bd5; --profile-b:#db55a7;
+  }
+  body[data-theme="purple"]{
+    --accent:#7e63e8; --accent-2:#c2a6ff; --accent-rgb:126,99,232;
+    --theme-tint:rgba(126,99,232,.13);
+    --page-a:#f8f5ff; --page-b:#ece5ff; --page-c:#fbf8ff;
+    --panel:rgba(248,246,255,.91); --panel-2:rgba(236,228,255,.77);
+    --card-a:rgba(252,250,255,.92); --card-b:rgba(239,232,255,.74);
+    --ink:#36265f; --muted:#786d95;
+    --profile-a:#a98cff; --profile-b:#6d51d8;
+  }
+  body[data-theme="green"]{
+    --accent:#31ad70; --accent-2:#88e7b2; --accent-rgb:49,173,112;
+    --theme-tint:rgba(49,173,112,.12);
+    --page-a:#f3fff8; --page-b:#e3f8ec; --page-c:#f8fffb;
+    --panel:rgba(245,255,249,.91); --panel-2:rgba(225,247,235,.77);
+    --card-a:rgba(250,255,252,.92); --card-b:rgba(229,248,238,.74);
+    --ink:#1e5138; --muted:#678678;
+    --profile-a:#72dda1; --profile-b:#27945f;
+  }
+  body[data-theme="orange"]{
+    --accent:#eb8330; --accent-2:#ffc17a; --accent-rgb:235,131,48;
+    --theme-tint:rgba(235,131,48,.13);
+    --page-a:#fff8f1; --page-b:#ffead4; --page-c:#fffaf5;
+    --panel:rgba(255,249,243,.91); --panel-2:rgba(255,234,211,.77);
+    --card-a:rgba(255,252,248,.92); --card-b:rgba(255,237,219,.74);
+    --ink:#5f3518; --muted:#8e725e;
+    --profile-a:#ffad69; --profile-b:#df7023;
+  }
+  body[data-theme="blue"]{
+    --accent:#2f80ff; --accent-2:#69d8ff; --accent-rgb:47,128,255;
+    --theme-tint:rgba(47,128,255,.10);
+    --page-a:#f1f8ff; --page-b:#dfeeff; --page-c:#f5f2ff;
+    --panel:rgba(246,251,255,.91); --panel-2:rgba(223,239,255,.77);
+    --card-a:rgba(250,253,255,.93); --card-b:rgba(229,241,255,.75);
+    --ink:#173b69; --muted:#6b82a0;
+    --profile-a:#55b7ff; --profile-b:#3d6de7;
+  }
+  body[data-theme="auto"]{
+    --accent:#2f80ff; --accent-2:#8b6cff; --accent-rgb:47,128,255;
+    --theme-tint:rgba(47,128,255,.10);
+    --page-a:#f4f9ff; --page-b:#edf6ff; --page-c:#f8f3ff;
+    --panel:rgba(255,255,255,.86); --panel-2:rgba(245,250,255,.74);
+    --card-a:rgba(255,255,255,.78); --card-b:rgba(255,255,255,.52);
+    --ink:#14213d; --muted:#6e7c93;
+    --profile-a:#4ba9ff; --profile-b:#8b69ff;
+  }
+
+  *{box-sizing:border-box}
+  html,body{
+    height:100%;
+    margin:0;
+    font-family:Segoe UI,Tahoma,Arial,sans-serif;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb),.12), transparent 28%),
+      radial-gradient(circle at 85% 20%, rgba(var(--accent-rgb),.09), transparent 25%),
+      linear-gradient(135deg,var(--page-a) 0%,var(--page-b) 45%,var(--page-c) 100%);
+    color:var(--ink);
+    overflow:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed; inset:-30%;
+    background:radial-gradient(circle at 50% 45%, rgba(var(--accent-rgb),.18), transparent 44%);
+    filter:blur(90px);
+    pointer-events:none;
+    opacity:.65;
+  }
+  body[data-theme="auto"]::before{
+    background:conic-gradient(from 0deg,
+      rgba(90,214,255,.14),
+      rgba(118,102,255,.13),
+      rgba(255,102,218,.14),
+      rgba(90,214,255,.14));
+    animation:floatGlow 12s linear infinite;
+    opacity:1;
+  }
+  @keyframes floatGlow{to{transform:rotate(360deg)}}
+
+  .shell-wrap{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    margin:0;
+    border-radius:34px;
+    padding:2px;
+    background:linear-gradient(120deg,var(--accent-2),var(--accent),var(--accent-2));
+    background-size:100% 100%;
+    box-shadow:0 25px 80px rgba(42,74,133,.24);
+    transition:.25s;
+  }
+  body[data-theme="auto"] .shell-wrap{
+    background:linear-gradient(120deg,#7fe5ff,#5f84ff,#ff7adb,#8ef6ff);
+    background-size:300% 300%;
+    animation:borderShift 7s ease-in-out infinite;
+  }
+  @keyframes borderShift{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+  }
+
+  .app{
+    height:100%;
+    border-radius:32px;
+    overflow:hidden;
+    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    backdrop-filter:blur(22px) saturate(145%);
+    -webkit-backdrop-filter:blur(22px) saturate(145%);
+    display:flex;
+    flex-direction:column;
+    border:1px solid rgba(255,255,255,.9);
+  }
+
+  .topbar{
+    min-height:84px;
+    padding:16px 24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    direction:rtl;
+    background:linear-gradient(180deg,rgba(255,255,255,.74),rgba(255,255,255,.38));
+  }
+
+  .window-controls{
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+  .dot{
+    width:22px;height:22px;border-radius:50%;border:0;cursor:pointer;
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.9),0 3px 10px rgba(0,0,0,.15);
+    transition:.22s transform,.22s filter;
+  }
+  .dot:hover{transform:scale(1.12);filter:brightness(1.04)}
+  .dot.red{background:linear-gradient(#ff6f73,#f33d46)}
+  .dot.yellow{background:linear-gradient(#ffd96c,#ffb60b)}
+  .dot.blue{background:linear-gradient(#62d6ff,#198dff)}
+
+  .profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    padding:6px 10px 6px 7px;
+    border-radius:18px;
+    transition:.22s background,.22s transform;
+    margin-right:auto; /* pushes profile to far left in RTL row */
+  }
+  .profile:hover{background:rgba(73,134,255,.08);transform:translateY(-1px)}
+  .avatar{
+    width:48px;height:48px;border-radius:50%;
+    display:grid;place-items:center;font-weight:800;color:#fff;font-size:19px;
+    background:linear-gradient(135deg,var(--profile-a),var(--profile-b) 75%,var(--accent-2));
+    border:3px solid rgba(255,255,255,.9);
+    box-shadow:0 6px 18px rgba(77,113,207,.25);
+  }
+  .profile-meta{line-height:1.08}
+  .profile-meta b{font-size:14px}
+  .profile-meta small{display:block;color:var(--muted);margin-top:5px}
+
+  .brand{
+    font-weight:800;
+    letter-spacing:.2px;
+    color:#29476f;
+    opacity:.9;
+    margin-right:14px;
+  }
+
+  .crystal-line{
+    height:3px;
+    position:relative;
+    background:linear-gradient(90deg,transparent,var(--accent-2) 12%,var(--accent) 44%,#9f74ff 68%,var(--accent-2) 88%,transparent);
+    box-shadow:0 0 14px rgba(48,151,255,.8),0 0 28px rgba(116,89,255,.35);
+    overflow:hidden;
+  }
+  .crystal-line::after{
+    content:"";position:absolute;top:0;left:-20%;width:18%;height:100%;
+    background:linear-gradient(90deg,transparent,#fff,transparent);
+    animation:shine 3.5s linear infinite;
+  }
+  @keyframes shine{to{left:120%}}
+
+  .toolbar{
+    padding:16px 24px 12px;
+    display:flex;gap:12px;align-items:center;
+    direction:rtl;
+  }
+  .primary-btn,.icon-btn,.secondary{
+    border:1px solid rgba(54,120,255,.16);
+    background:rgba(255,255,255,.62);
+    backdrop-filter:blur(14px);
+    border-radius:18px;
+    height:46px;
+    box-shadow:0 8px 24px rgba(51,91,148,.10);
+    cursor:pointer;
+    transition:.22s;
+    font:inherit;
+  }
+  .primary-btn{
+    padding:0 20px;
+    font-weight:800;
+    color:#fff;
+    background:linear-gradient(135deg,var(--accent-2),var(--accent));
+    border:0;
+    display:flex;gap:10px;align-items:center;
+  }
+  .primary-btn:hover,.icon-btn:hover,.secondary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 28px rgba(51,91,148,.16);
+  }
+  .icon-btn{width:46px;font-size:19px;color:var(--accent)}
+  .secondary{
+    padding:0 16px;background:rgba(255,255,255,.7);color:#365178;
+  }
+
+  .search{
+    margin-inline-start:auto;
+    position:relative;
+    width:min(390px,38vw);
+  }
+  .search input{
+    width:100%;height:46px;border-radius:18px;border:1px solid rgba(96,137,202,.19);
+    background:rgba(255,255,255,.58);outline:none;padding:0 45px 0 16px;
+    color:#314968;font-size:14px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 8px 22px rgba(73,101,146,.08);
+  }
+  .search span{position:absolute;right:16px;top:12px;color:#7391bd}
+
+  .board{
+    flex:1;min-height:0;
+    padding:8px 24px 24px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    direction:rtl;
+  }
+
+  .column{
+    min-width:0;
+    border-radius:26px;
+    padding:14px;
+    display:flex;flex-direction:column;
+    background:linear-gradient(180deg,rgba(255,255,255,.54),rgba(255,255,255,.30));
+    border:1px solid rgba(255,255,255,.82);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 14px 38px rgba(61,91,138,.10);
+    overflow:hidden;
+  }
+  .column.personal{background:linear-gradient(180deg,rgba(255,232,247,.58),rgba(255,255,255,.32))}
+  .column.study{background:linear-gradient(180deg,rgba(229,240,255,.67),rgba(255,255,255,.34))}
+  .column.work{background:linear-gradient(180deg,rgba(230,255,241,.64),rgba(255,255,255,.34))}
+
+  .col-head{
+    display:flex;align-items:center;gap:9px;
+    padding:2px 4px 12px;
+    font-weight:900;
+  }
+  .col-head .count{
+    margin-inline-start:auto;
+    min-width:30px;height:30px;padding:0 9px;border-radius:16px;
+    display:grid;place-items:center;
+    background:rgba(255,255,255,.55);
+    color:#4a6b96;font-weight:800;font-size:13px;
+  }
+  .mini-add{
+    border:0;width:34px;height:34px;border-radius:50%;
+    background:rgba(255,255,255,.64);color:var(--accent);font-size:22px;cursor:pointer;
+    box-shadow:0 5px 14px rgba(65,101,155,.12);
+  }
+
+  .cards{
+    flex:1;
+    overflow:auto;
+    min-height:170px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding:2px 2px 24px;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+
+  /* No visible drop-zone borders. The entire column is a drop target. */
+  .column.drop-active{
+    background-image:linear-gradient(180deg,var(--theme-tint),rgba(255,255,255,.24));
+  }
+
+  .note{
+    position:relative;
+    border-radius:20px;
+    padding:16px 16px 13px;
+    background:linear-gradient(145deg,var(--card-a),var(--card-b));
+    border:1px solid rgba(255,255,255,.93);
+    box-shadow:0 10px 26px rgba(64,90,133,.11), inset 0 1px 0 rgba(255,255,255,.92);
+    backdrop-filter:blur(14px) saturate(145%);
+    cursor:grab;
+    transition:.22s transform,.22s box-shadow,.22s opacity;
+    animation:cardIn .34s ease;
+  }
+  .note:hover{transform:translateY(-3px) scale(1.006);box-shadow:0 16px 34px rgba(62,88,130,.16)}
+  .note.dragging{
+    opacity:.34;
+    transform:scale(.965) rotate(.35deg);
+    cursor:grabbing;
+    box-shadow:0 22px 46px rgba(var(--accent-rgb),.20);
+  }
+  .note.drop-settle{
+    animation:dropSettle .38s cubic-bezier(.18,.89,.32,1.28);
+  }
+  @keyframes dropSettle{
+    0%{transform:scale(.96);filter:brightness(1.08)}
+    65%{transform:scale(1.018)}
+    100%{transform:scale(1);filter:none}
+  }
+  @keyframes cardIn{
+    from{opacity:0;transform:translateY(10px) scale(.98)}
+    to{opacity:1;transform:none}
+  }
+  .note-top{display:flex;align-items:center;gap:10px}
+  .note-title{font-weight:900;flex:1}
+  .more{color:#7790b0;font-size:20px}
+  .note p{margin:10px 0;color:#5f6f86;font-size:13.5px;line-height:1.7}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .attachment-picker-row{display:flex;gap:10px;flex-wrap:wrap}
+  .attachment-list,.note-attachments{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .attachment-pill,.note-attachment{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:10px;background:rgba(var(--accent-rgb),.08);font-size:12px;max-width:220px}
+  .attachment-pill span,.note-attachment span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .attachment-remove{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:15px;padding:0 2px}
+  .chip{
+    padding:4px 8px;border-radius:10px;font-size:11px;font-weight:700;
+    background:rgba(71,127,255,.08);color:#5772a0;
+  }
+  .note-foot{display:flex;align-items:center;gap:8px;margin-top:12px}
+  .date{color:#8797ae;font-size:11.5px}
+  .stars{margin-inline-start:auto;display:flex;direction:ltr;gap:1px}
+  .star{font-size:16px;color:#c9d2df;cursor:pointer;transition:.15s transform,.15s color}
+  .star.on{color:#ffbd17;text-shadow:0 1px 5px rgba(255,187,0,.28)}
+  .star:hover{transform:scale(1.18)}
+
+  .toast{
+    position:fixed;bottom:28px;left:50%;transform:translate(-50%,20px);
+    padding:12px 18px;border-radius:16px;background:rgba(28,43,68,.88);color:#fff;
+    opacity:0;pointer-events:none;transition:.25s;z-index:50;
+    box-shadow:0 14px 40px rgba(0,0,0,.22);font-size:13px;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(20,33,61,.18);
+    backdrop-filter:blur(8px);display:none;place-items:center;z-index:60;
+  }
+  .modal-backdrop.open{display:grid}
+  .modal{
+    width:min(560px,calc(100vw - 30px));
+    border-radius:26px;padding:22px;
+    background:rgba(255,255,255,.84);
+    border:1px solid rgba(255,255,255,.95);
+    box-shadow:0 24px 80px rgba(36,56,95,.25);
+  }
+  .modal h3{margin:0 0 16px}
+  .field{margin:10px 0}
+  .field label{display:block;font-size:12px;color:#71819a;margin-bottom:6px}
+  .field input,.field textarea,.field select{
+    width:100%;border:1px solid rgba(80,118,170,.18);border-radius:14px;
+    background:rgba(255,255,255,.72);padding:11px 12px;outline:none;font:inherit;
+  }
+  .field textarea{min-height:110px;resize:vertical}
+  .modal-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .manage-grid{display:grid;grid-template-columns:1fr;gap:10px}
+
+  .profile-menu{
+    position:fixed;top:80px;left:120px;width:230px;
+    border-radius:20px;padding:10px;
+    background:rgba(255,255,255,.86);backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.95);
+    box-shadow:0 18px 55px rgba(46,67,104,.20);
+    display:none;z-index:70;
+  }
+  .profile-menu.open{display:block;animation:cardIn .2s ease both}
+  .profile-menu button{
+    width:100%;height:42px;border:0;background:transparent;border-radius:12px;
+    text-align:right;padding:0 12px;cursor:pointer;color:#3f5677;font:inherit;
+  }
+  .profile-menu button:hover{background:rgba(var(--accent-rgb),.08)}
+
+  .minimized{
+    height:84px !important;
+    position:fixed;
+    bottom:18px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:90;
+    width:min(820px,calc(100vw - 36px));
+  }
+  .minimized .app > *:not(.topbar){display:none!important}
+  .minimized .app{border-radius:30px}
+  .minimized .topbar{min-height:80px}
+
+  .hidden-mode .app{opacity:0;pointer-events:none;transform:scale(.94);transition:.25s}
+  .restore-pill{
+    position:fixed;bottom:18px;right:22px;z-index:100;
+    display:none;
+    padding:12px 16px;border-radius:18px;border:1px solid rgba(255,255,255,.9);
+    background:rgba(255,255,255,.76);backdrop-filter:blur(14px);
+    box-shadow:0 12px 30px rgba(55,78,115,.18);
+    cursor:pointer;font-weight:800;color:#3a5f94;
+  }
+  .hidden-mode + .restore-pill{display:block}
+
+  .drag-tip{
+    font-size:12px;color:#8092ac;padding:0 4px 8px;
+  }
+
+
+  .settings-list{
+    display:flex;flex-direction:column;gap:10px;margin-top:4px;
+  }
+  .settings-row{
+    width:100%;
+    min-height:52px;
+    border:1px solid rgba(80,118,170,.15);
+    border-radius:16px;
+    background:rgba(255,255,255,.64);
+    display:flex;align-items:center;gap:12px;
+    padding:0 14px;
+    cursor:pointer;
+    font:inherit;color:#365178;
+    text-align:right;
+  }
+  .settings-row:hover{background:rgba(var(--accent-rgb),.07)}
+  .settings-row strong{flex:1}
+  .settings-row span:last-child{color:#90a0b6}
+
+  .theme-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:14px;
+  }
+  .theme-choice{
+    border:1px solid rgba(80,118,170,.15);
+    border-radius:18px;
+    background:rgba(255,255,255,.66);
+    min-height:74px;
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    cursor:pointer;font:inherit;color:#405979;
+    transition:.18s transform,.18s box-shadow,.18s border-color;
+  }
+  .theme-choice:hover{transform:translateY(-2px)}
+  .theme-choice.selected{
+    border-color:rgba(var(--accent-rgb),.52);
+    box-shadow:0 8px 25px rgba(var(--accent-rgb),.16);
+  }
+  .theme-dot{
+    width:24px;height:24px;border-radius:50%;
+    border:2px solid rgba(255,255,255,.95);
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
+  }
+
+
+  /* V7 pointer-based sortable drag: no browser ghost, no visible drop borders. */
+  .note{
+    touch-action:none;
+    transform-origin:center center;
+  }
+  .note.press-shrink{
+    transform:scale(.94) !important;
+    box-shadow:0 7px 17px rgba(64,90,133,.10) !important;
+    transition:transform .10s cubic-bezier(.2,.8,.2,1), box-shadow .10s ease !important;
+  }
+  .note.dragging-card{
+    position:fixed !important;
+    z-index:99999 !important;
+    margin:0 !important;
+    pointer-events:none !important;
+    cursor:grabbing !important;
+    transition:none !important;
+    will-change:left,top,transform,filter,box-shadow;
+    box-shadow:0 24px 55px rgba(var(--accent-rgb),.23), 0 8px 22px rgba(35,50,82,.16) !important;
+    filter:brightness(1.035) saturate(1.04);
+  }
+  .note-placeholder{
+    flex:0 0 auto;
+    width:100%;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .note.drop-settle{
+    animation:dropSettleV7 .42s cubic-bezier(.18,.88,.30,1.18) !important;
+  }
+  @keyframes dropSettleV7{
+    0%{transform:scale(.985);filter:brightness(1.05)}
+    38%{transform:scale(1.018)}
+    70%{transform:scale(.996)}
+    100%{transform:scale(1);filter:none}
+  }
+  .column.drop-active{
+    background-image:linear-gradient(180deg,rgba(var(--accent-rgb),.055),rgba(255,255,255,.20));
+  }
+
+  @media(max-width:1000px){
+    .board{grid-template-columns:1fr;overflow:auto}
+    .column{min-height:340px}
+    .search{display:none}
+  }
+</style>
+
+<style id="v8-scrollbar-fix">
+  .cards::-webkit-scrollbar,
+  .board::-webkit-scrollbar,
+  .column::-webkit-scrollbar{
+    width:0 !important;
+    height:0 !important;
+    display:none !important;
+  }
+  .cards,.board,.column{
+    scrollbar-width:none !important;
+    -ms-overflow-style:none !important;
+  }
+</style>
+
+
+<style id="v9-selection-and-view">
+  /* Prevent the random blue browser text selection while dragging cards. */
+  .board,
+  .board .column,
+  .board .cards,
+  .board .note,
+  .board .note * ,
+  .toolbar .icon-btn,
+  .col-head,
+  .mini-add {
+    -webkit-user-select:none !important;
+    user-select:none !important;
+    -webkit-touch-callout:none !important;
+  }
+
+  /* Inputs remain selectable/editable. */
+  input, textarea, select {
+    -webkit-user-select:text !important;
+    user-select:text !important;
+  }
+
+  /* -------- Layout modes -------- */
+  body[data-view-layout="columns"] .board{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  body[data-view-layout="compact"] .board{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;
+  }
+  body[data-view-layout="compact"] .column{
+    padding:10px;
+    border-radius:22px;
+  }
+  body[data-view-layout="compact"] .note{
+    padding:11px 12px 9px;
+    border-radius:16px;
+  }
+  body[data-view-layout="compact"] .note p{
+    margin:6px 0;
+    line-height:1.45;
+    font-size:12.5px;
+  }
+  body[data-view-layout="compact"] .cards{
+    gap:8px;
+  }
+
+  body[data-view-layout="list"] .board{
+    grid-template-columns:1fr;
+    overflow:auto;
+    align-content:start;
+  }
+  body[data-view-layout="list"] .column{
+    min-height:auto;
+    overflow:visible;
+  }
+  body[data-view-layout="list"] .cards{
+    overflow:visible;
+    min-height:70px;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+
+  /* -------- Card size -------- */
+  body[data-card-size="small"] .note{
+    padding:10px 12px 8px;
+    border-radius:15px;
+  }
+  body[data-card-size="small"] .note p{
+    margin:6px 0;
+    font-size:12px;
+    line-height:1.4;
+  }
+  body[data-card-size="small"] .note-title{font-size:13px}
+
+  body[data-card-size="medium"] .note{
+    padding:16px 16px 13px;
+  }
+
+  body[data-card-size="large"] .note{
+    padding:22px 20px 18px;
+    border-radius:23px;
+  }
+  body[data-card-size="large"] .note p{
+    font-size:15px;
+    line-height:1.8;
+  }
+  body[data-card-size="large"] .note-title{font-size:16px}
+
+  /* -------- Spacing -------- */
+  body[data-view-spacing="tight"] .cards{gap:7px}
+  body[data-view-spacing="tight"] .board{gap:10px}
+  body[data-view-spacing="normal"] .cards{gap:12px}
+  body[data-view-spacing="normal"] .board{gap:16px}
+  body[data-view-spacing="airy"] .cards{gap:20px}
+  body[data-view-spacing="airy"] .board{gap:24px}
+
+  /* -------- Visibility options -------- */
+  body[data-show-date="false"] .date{display:none !important}
+  body[data-show-rating="false"] .stars{display:none !important}
+  body[data-show-chips="false"] .chips{display:none !important}
+  body[data-show-icons="false"] .note-top > span:first-child{display:none !important}
+
+  .view-options{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:12px;
+  }
+  .view-option{
+    min-height:108px;
+    border:1px solid rgba(80,118,170,.15);
+    border-radius:20px;
+    background:rgba(255,255,255,.65);
+    cursor:pointer;
+    font:inherit;
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    transition:.18s transform,.18s box-shadow,.18s border-color;
+  }
+  .view-option:hover{transform:translateY(-2px)}
+  .view-option.selected{
+    border-color:rgba(var(--accent-rgb),.55);
+    box-shadow:0 9px 28px rgba(var(--accent-rgb),.17);
+    background:rgba(var(--accent-rgb),.07);
+  }
+  .view-preview{
+    width:72px;height:42px;border-radius:10px;
+    border:1px solid rgba(var(--accent-rgb),.22);
+    background:rgba(var(--accent-rgb),.055);
+    display:grid;gap:4px;padding:5px;
+  }
+  .view-preview.columns{grid-template-columns:repeat(3,1fr)}
+  .view-preview.compact{grid-template-columns:repeat(3,1fr);gap:2px;padding:3px}
+  .view-preview.list{grid-template-columns:1fr}
+  .view-preview i{
+    display:block;border-radius:3px;background:rgba(var(--accent-rgb),.52)
+  }
+
+  .customize-section{
+    padding:14px 0;
+    border-bottom:1px solid rgba(90,120,165,.12);
+  }
+  .customize-section:last-child{border-bottom:0}
+  .customize-section h4{
+    margin:0 0 10px;font-size:13px;color:var(--ink)
+  }
+  .segmented{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:7px;
+  }
+  .seg-btn{
+    min-height:40px;
+    border:1px solid rgba(80,118,170,.15);
+    background:rgba(255,255,255,.62);
+    color:var(--ink);
+    border-radius:13px;
+    cursor:pointer;
+    font:inherit;
+  }
+  .seg-btn.active{
+    background:rgba(var(--accent-rgb),.10);
+    border-color:rgba(var(--accent-rgb),.45);
+    color:var(--accent);
+    font-weight:800;
+  }
+  .toggle-list{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  }
+  .view-toggle{
+    min-height:44px;border-radius:13px;
+    border:1px solid rgba(80,118,170,.15);
+    background:rgba(255,255,255,.62);
+    color:var(--ink);
+    cursor:pointer;font:inherit;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 12px;
+  }
+  .view-toggle.active{
+    background:rgba(var(--accent-rgb),.09);
+    border-color:rgba(var(--accent-rgb),.36);
+  }
+  .view-toggle .status{
+    font-weight:900;color:var(--accent);
+  }
+
+  @media(max-width:1000px){
+    body[data-view-layout="list"] .cards{grid-template-columns:1fr}
+    .view-options{grid-template-columns:1fr}
+  }
+</style>
+
+<style>
+/* MUFAKKIRATI_EDGE_FIT */
+html,body{
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+  background:transparent !important;
+  border-radius:34px;
+  overflow:hidden !important;
+}
+body::before{
+  border-radius:34px;
+}
+.shell-wrap{
+  width:100vw !important;
+  height:100vh !important;
+  margin:0 !important;
+  border-radius:34px !important;
+  overflow:hidden !important;
+  box-shadow:none !important;
+}
+.app{
+  width:100%;
+  height:100%;
+  border-radius:32px !important;
+  overflow:hidden !important;
+}
+</style>
+<style>/* MUFAKKIRATI_RESIZE_HANDLES */.native-resize-handle{position:fixed;z-index:2147483647;background:transparent;user-select:none}.native-resize-handle[data-resize-direction="North"]{top:0;left:12px;right:12px;height:7px;cursor:n-resize}.native-resize-handle[data-resize-direction="South"]{bottom:0;left:12px;right:12px;height:7px;cursor:s-resize}.native-resize-handle[data-resize-direction="West"]{left:0;top:12px;bottom:12px;width:7px;cursor:w-resize}.native-resize-handle[data-resize-direction="East"]{right:0;top:12px;bottom:12px;width:7px;cursor:e-resize}.native-resize-handle[data-resize-direction="NorthWest"]{left:0;top:0;width:15px;height:15px;cursor:nw-resize}.native-resize-handle[data-resize-direction="NorthEast"]{right:0;top:0;width:15px;height:15px;cursor:ne-resize}.native-resize-handle[data-resize-direction="SouthWest"]{left:0;bottom:0;width:15px;height:15px;cursor:sw-resize}.native-resize-handle[data-resize-direction="SouthEast"]{right:0;bottom:0;width:15px;height:15px;cursor:se-resize}</style><style>
+/* MUFAKKIRATI_TOP_DRAG_ZONE */
+.topbar{position:relative}
+.window-drag-zone{
+  position:absolute;
+  top:7px;
+  bottom:7px;
+  left:185px;
+  right:235px;
+  z-index:1;
+  cursor:grab;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.window-drag-zone:active{cursor:grabbing}
+.window-controls,.brand,.profile{position:relative;z-index:2}
+@media(max-width:1000px){
+  .window-drag-zone{left:165px;right:210px}
+}
+</style>
+</head>
+<body>
+
+<div class="shell-wrap" id="shell">
+  <div class="app">
+    <div class="topbar">
+      <div class="window-drag-zone" id="windowDragZone" data-tauri-drag-region></div>
+      <div class="window-controls" title="أزرار النافذة">
+        <button class="dot red" id="hideBtn" title="إخفاء إلى الخلفية"></button>
+        <button class="dot yellow" id="fullBtn" title="ملء الشاشة / استعادة"></button>
+        <button class="dot blue" id="minBtn" title="&#x062A;&#x0635;&#x063A;&#x064A;&#x0631; &#x0625;&#x0644;&#x0649; &#x0634;&#x0631;&#x064A;&#x0637; &#x0627;&#x0644;&#x0645;&#x0647;&#x0627;&#x0645;"></button>
+      </div>
+
+      <div class="brand" id="brandTitle">مفكرتي ✦</div>
+
+      <div class="profile" id="profileBtn">
+        <div class="avatar" id="topAvatar">ج</div>
+        <div class="profile-meta">
+          <b>جمال</b>
+          <small>حسابي الشخصي</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="crystal-line"></div>
+
+    <div class="toolbar">
+      <button class="primary-btn" id="addBtn"><span style="font-size:24px">＋</span> ملاحظة جديدة</button>
+      <button class="icon-btn" id="layoutBtn" title="شكل العرض">▦</button>
+      <button class="icon-btn" id="filterBtn" title="تخصيص العرض">☷</button>
+      <div class="search">
+        <span>⌕</span>
+        <input id="searchInput" type="text" placeholder="بحث في الملاحظات..." />
+      </div>
+    </div>
+
+    <main class="board" id="board"></main>
+  </div>
+</div>
+
+<button class="restore-pill" id="restoreBtn">✦ إعادة فتح المفكرة</button>
+
+<div class="profile-menu" id="profileMenu">
+  <button id="profileSettingsBtn">👤 الملف الشخصي</button>
+  <button id="settingsBtn">⚙️ الإعدادات</button>
+  <button id="customizeBtn">🎨 تخصيص الواجهة</button>
+</div>
+
+
+<div class="modal-backdrop" id="viewLayoutModal">
+  <div class="modal">
+    <h3>شكل العرض</h3>
+    <div style="color:var(--muted);font-size:13px">اختر الطريقة التي تريد عرض الملاحظات بها.</div>
+
+    <div class="view-options">
+      <button class="view-option" data-layout-choice="columns">
+        <span class="view-preview columns"><i></i><i></i><i></i></span>
+        <strong>أعمدة</strong>
+      </button>
+      <button class="view-option" data-layout-choice="compact">
+        <span class="view-preview compact"><i></i><i></i><i></i></span>
+        <strong>مضغوط</strong>
+      </button>
+      <button class="view-option" data-layout-choice="list">
+        <span class="view-preview list"><i></i><i></i><i></i></span>
+        <strong>قائمة</strong>
+      </button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="secondary" id="closeViewLayout">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="viewCustomizeModal">
+  <div class="modal">
+    <h3>تخصيص العرض</h3>
+
+    <div class="customize-section">
+      <h4>حجم البطاقات</h4>
+      <div class="segmented">
+        <button class="seg-btn" data-card-size-choice="small">صغير</button>
+        <button class="seg-btn" data-card-size-choice="medium">متوسط</button>
+        <button class="seg-btn" data-card-size-choice="large">كبير</button>
+      </div>
+    </div>
+
+    <div class="customize-section">
+      <h4>المسافات</h4>
+      <div class="segmented">
+        <button class="seg-btn" data-spacing-choice="tight">ضيقة</button>
+        <button class="seg-btn" data-spacing-choice="normal">عادية</button>
+        <button class="seg-btn" data-spacing-choice="airy">واسعة</button>
+      </div>
+    </div>
+
+    <div class="customize-section">
+      <h4>تفاصيل البطاقات</h4>
+      <div class="toggle-list">
+        <button class="view-toggle" data-toggle-view="showDate"><span>التاريخ</span><span class="status"></span></button>
+        <button class="view-toggle" data-toggle-view="showRating"><span>التقييم</span><span class="status"></span></button>
+        <button class="view-toggle" data-toggle-view="showChips"><span>الوسوم</span><span class="status"></span></button>
+        <button class="view-toggle" data-toggle-view="showIcons"><span>الأيقونات</span><span class="status"></span></button>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="secondary" id="resetViewSettings">إعادة الافتراضي</button>
+      <button class="secondary" id="closeViewCustomize">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="noteModal">
+  <div class="modal">
+    <h3>إضافة ملاحظة جديدة</h3>
+    <div class="field"><label>العنوان</label><input id="noteTitle" placeholder="عنوان الملاحظة" /></div>
+    <div class="field"><label>المحتوى</label><textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea></div>
+    <div class="field">
+      <label>العمود</label>
+      <select id="noteColumn"></select>
+    </div>
+    <div class="field"><label>&#x0627;&#x0644;&#x0645;&#x0631;&#x0641;&#x0642;&#x0627;&#x062a;</label><div class="attachment-picker-row"><button class="secondary" type="button" id="addAttachmentBtn">&#x1F4CE; &#x0625;&#x0631;&#x0641;&#x0627;&#x0642; &#x0645;&#x0644;&#x0641;</button></div><div class="attachment-list" id="pendingAttachments"></div></div>
+    <div class="modal-actions">
+      <button class="primary-btn" id="saveNote">حفظ الملاحظة</button>
+      <button class="secondary" id="cancelNote">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal-backdrop" id="profileModal">
+  <div class="modal">
+    <h3>الملف الشخصي</h3>
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
+      <div class="avatar" id="profilePreview" style="width:74px;height:74px;font-size:26px;overflow:hidden">ج</div>
+      <div style="flex:1;color:var(--muted);font-size:13px;line-height:1.7">
+        غيّر اسم المفكرة واختر صورة شخصية من جهازك. يتم حفظها محليًا في هذا المتصفح.
+      </div>
+    </div>
+    <div class="field">
+      <label>اسم المفكرة</label>
+      <input id="notebookNameInput" placeholder="مفكرتي" />
+    </div>
+    <div class="field">
+      <label>الصورة الشخصية</label>
+      <input id="profileImageInput" type="file" accept="image/*" />
+    </div>
+    <div class="modal-actions">
+      <button class="primary-btn" id="saveProfile">حفظ</button>
+      <button class="secondary" id="removeProfileImage">إزالة الصورة</button>
+      <button class="secondary" id="cancelProfile">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="settingsModal">
+  <div class="modal">
+    <h3>الإعدادات</h3>
+    <div class="settings-list">
+      <button class="settings-row" id="manageNotesFromSettings">
+        <span>🗂️</span><strong>إدارة الملاحظات</strong><span>‹</span>
+      </button>
+      <button class="settings-row" id="languageSettingsBtn">
+        <span>🌐</span><strong id="languageSettingsLabel">اللغة</strong><span id="languageCurrent">العربية</span>
+      </button>
+      <button class="settings-row" id="updateSettingsBtn">
+        <span>↻</span><strong id="updateSettingsLabel">التحقق من التحديثات</strong><span>›</span>
+      </button>
+      <button class="settings-row" id="aboutSettingsBtn">
+        <span>ⓘ</span><strong id="aboutSettingsLabel">حول مفكرتي</strong><span>›</span>
+      </button>      <button class="settings-row" id="settingsPlaceholder">
+        <span>⚙️</span><strong>إعدادات إضافية</strong><span>لاحقًا</span>
+      </button>
+    </div>
+    <div class="modal-actions">
+      <button class="secondary" id="closeSettings">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="themeModal">
+  <div class="modal">
+    <h3>تخصيص الواجهة</h3>
+    <div style="color:#71819a;font-size:13px">اختر ثيم الواجهة:</div>
+    <div class="theme-grid" id="themeGrid">
+      <button class="theme-choice" data-theme="auto"><span class="theme-dot" style="background:conic-gradient(#5fe6ff,#765fff,#ff6bd6,#5fe6ff)"></span>تلقائي</button>
+      <button class="theme-choice" data-theme="black"><span class="theme-dot" style="background:#202838"></span>أسود</button>
+      <button class="theme-choice" data-theme="white"><span class="theme-dot" style="background:#f4f7fb"></span>أبيض</button>
+      <button class="theme-choice" data-theme="yellow"><span class="theme-dot" style="background:#f3b500"></span>أصفر</button>
+      <button class="theme-choice" data-theme="red"><span class="theme-dot" style="background:#ef4b55"></span>أحمر</button>
+      <button class="theme-choice" data-theme="pink"><span class="theme-dot" style="background:#ee66b7"></span>زهري</button>
+      <button class="theme-choice" data-theme="purple"><span class="theme-dot" style="background:#8267ef"></span>بنفسجي</button>
+      <button class="theme-choice" data-theme="green"><span class="theme-dot" style="background:#35b875"></span>أخضر</button>
+      <button class="theme-choice" data-theme="orange"><span class="theme-dot" style="background:#f28a32"></span>برتقالي</button>
+      <button class="theme-choice" data-theme="blue"><span class="theme-dot" style="background:#2f80ff"></span>أزرق</button>
+    </div>
+    <div class="modal-actions">
+      <button class="secondary" id="closeTheme">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="manageModal">
+  <div class="modal">
+    <h3>إدارة الملاحظات</h3>
+    <div class="manage-grid">
+      <div class="field"><label>اسم العمود الأول</label><input id="colName1" /></div>
+      <div class="field"><label>اسم العمود الثاني</label><input id="colName2" /></div>
+      <div class="field"><label>اسم العمود الثالث</label><input id="colName3" /></div>
+    </div>
+    <div class="drag-tip">يمكنك تغيير أسماء الأعمدة كما تريد من هنا.</div>
+    <div class="modal-actions">
+      <button class="primary-btn" id="saveColumns">حفظ الأسماء</button>
+      <button class="secondary" id="cancelManage">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const boardEl = document.getElementById('board');
+  const shell = document.getElementById('shell');
+  const toast = document.getElementById('toast');
+
+  const defaultState = {
+    theme:'blue',
+    columns: [
+      { id:'work', label:'عمل ومشاريع', icon:'💼', className:'work' },
+      { id:'study', label:'دراسة', icon:'🎓', className:'study' },
+      { id:'personal', label:'شخصي', icon:'💗', className:'personal' }
+    ],
+    notes: {
+      work: [
+        {id:id(), emoji:'🎮', title:'مود سول', text:'تحسين الذكاء الاصطناعي، إصلاح مسار المركبات، اختبار الأداء وإضافة نظام الذاكرة.', date:'2026/10/28', rating:5, chips:['Project Zomboid','Sol']},
+        {id:id(), emoji:'🌐', title:'Net Download Manager', text:'إصلاح الاختبارات، تجهيز نسخة EXE وتحسين تجربة التثبيت للمستخدم.', date:'2026/10/26', rating:4, chips:['Windows','Desktop']},
+        {id:id(), emoji:'⚙️', title:'أفكار إضافية', text:'أفكار للتطوير وإدارة المودات وتحسين الشاشة الأولى للبرنامج.', date:'2026/10/25', rating:3, chips:[]}
+      ],
+      study: [
+        {id:id(), emoji:'📘', title:'خطة الدراسة', text:'مراجعة فصل الفيزياء، حل 20 سؤال رياضي، قراءة فصل الأحياء ومراجعة الكيمياء.', date:'2026/10/28', rating:4, chips:[]},
+        {id:id(), emoji:'🧬', title:'ملخص أحياء', text:'الجهاز العصبي، الخلايا العصبية والاتصالات.', date:'2026/10/27', rating:5, chips:[]},
+        {id:id(), emoji:'❓', title:'أسئلة مهمة', text:'أسئلة صعبة من الكتاب لمراجعتها لاحقًا.', date:'2026/10/26', rating:3, chips:[]},
+        {id:id(), emoji:'🗓️', title:'مواعيد الامتحانات', text:'رياضيات: الأحد — فيزياء: الجمعة — كيمياء: الأسبوع القادم.', date:'2026/10/25', rating:4, chips:[]}
+      ],
+      personal: [
+        {id:id(), emoji:'🌱', title:'أهدافي المستقبلية', text:'تحقيق التوازن بين الدراسة والعمل والحياة العائلية.', date:'2026/10/28', rating:4, chips:[]},
+        {id:id(), emoji:'💡', title:'أفكار', text:'أفكار مشاريع جديدة، تطوير مود سول، وتحسين تطبيق إدارة التنزيلات.', date:'2026/10/26', rating:3, chips:[]},
+        {id:id(), emoji:'📔', title:'ملاحظات يومية', text:'اليوم كان يومًا جيدًا، وتم إنجاز عدد كبير من المهام.', date:'2026/10/25', rating:5, chips:[]}
+      ]
+    }
+  };
+
+  function id(){ return 'n' + Math.random().toString(36).slice(2,10); }
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem('jamal-notes-prototype-v2');
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return structuredClone(defaultState);
+  }
+  let state = loadState();
+  window.__notebookState = state;
+  if(!state.theme) state.theme = 'blue';
+  if(!state.notebookName) state.notebookName = 'مفكرتي';
+  if(typeof state.profileImage !== 'string') state.profileImage = '';
+
+  if(!state.viewLayout) state.viewLayout = 'columns';
+  if(!state.viewSettings) state.viewSettings = {};
+  if(!state.viewSettings.cardSize) state.viewSettings.cardSize = 'medium';
+  if(!state.viewSettings.spacing) state.viewSettings.spacing = 'normal';
+  if(typeof state.viewSettings.showDate !== 'boolean') state.viewSettings.showDate = true;
+  if(typeof state.viewSettings.showRating !== 'boolean') state.viewSettings.showRating = true;
+  if(typeof state.viewSettings.showChips !== 'boolean') state.viewSettings.showChips = true;
+  if(typeof state.viewSettings.showIcons !== 'boolean') state.viewSettings.showIcons = true;
+
+  // Recovery for the previous preview: if drag corruption saved an empty notes state,
+  // restore the default notes without touching theme/profile/custom column names.
+  const savedNoteCount = state.columns.reduce((sum,col)=>sum + ((state.notes && state.notes[col.id]) ? state.notes[col.id].length : 0),0);
+  if(savedNoteCount === 0){
+    state.notes = structuredClone(defaultState.notes);
+  }
+
+  function saveState(){
+    localStorage.setItem('jamal-notes-prototype-v2', JSON.stringify(state));
+    window.__desktopSave?.(structuredClone(state));
+  }
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),2200);
+  }
+
+  function starMarkup(rating=0){
+    return [1,2,3,4,5].map(i=>`<span class="star ${i<=rating?'on':''}" data-value="${i}">★</span>`).join('');
+  }
+
+  function escapeHtml(str=''){
+    return str.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+  }
+
+  function renderBoard(){
+    boardEl.innerHTML = state.columns.map(col=>{
+      const notes = state.notes[col.id] || [];
+      return `
+        <section class="column ${col.className}" data-column="${col.id}" data-drop-column="${col.id}">
+          <div class="col-head">
+            <span>${col.icon}</span>
+            <span class="col-label">${escapeHtml(col.label)}</span>
+            <span class="count">${notes.length}</span>
+            <button class="mini-add" data-add="${col.id}">+</button>
+          </div>
+          <div class="cards" data-dropzone="${col.id}">
+            ${notes.map(note=>renderNote(note)).join('')}
+          </div>
+        </section>
+      `;
+    }).join('');
+
+    renderColumnSelect();
+    wireMiniAddButtons();
+    wireDragAndDrop();
+    applySearch();
+  }
+
+  function renderNote(note){
+    return `
+      <article class="note" data-note-id="${note.id}">
+        <div class="note-top">
+          <span>${note.emoji || '📝'}</span>
+          <div class="note-title">${escapeHtml(note.title)}</div>
+          <span class="more">⋯</span>
+        </div>
+        <p>${escapeHtml(note.text)}</p>
+        ${note.chips && note.chips.length ? `<div class="chips">${note.chips.map(c=>`<span class="chip">${escapeHtml(c)}</span>`).join('')}</div>` : ''}
+        <div class="note-foot">
+          <span class="date">${escapeHtml(note.date)}</span>
+          <div class="stars">${starMarkup(Number(note.rating||0))}</div>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderColumnSelect(){
+    const select = document.getElementById('noteColumn');
+    select.innerHTML = state.columns.map(c=>`<option value="${c.id}">${escapeHtml(c.label)}</option>`).join('');
+  }
+
+  function wireMiniAddButtons(){
+    document.querySelectorAll('[data-add]').forEach(btn=>{
+      btn.onclick = ()=> openNoteModal(btn.dataset.add);
+    });
+  }
+
+  function getNoteById(id){
+    for(const col of state.columns){
+      const note = (state.notes[col.id]||[]).find(n=>n.id===id);
+      if(note) return note;
+    }
+    return null;
+  }
+
+  function syncStateFromDOM(){
+    // Retained only for compatibility. Drag/drop no longer uses this function,
+    // because rebuilding all state from transient drag DOM can erase notes.
+    updateCounts();
+  }
+
+  function updateCounts(){
+    document.querySelectorAll('.column').forEach(col=>{
+      const count = col.querySelectorAll('.note').length;
+      col.querySelector('.count').textContent = count;
+    });
+  }
+
+  function wireDragAndDrop(){
+    let pressed = null;
+    let drag = null;
+    const threshold = 5;
+
+    function isInteractiveTarget(target){
+      return !!target.closest('.star, .more, button, input, textarea, select, a');
+    }
+
+    function allCardRects(){
+      const map = new Map();
+      document.querySelectorAll('.cards .note').forEach(el=>{
+        if(!el.classList.contains('dragging-card')) map.set(el,el.getBoundingClientRect());
+      });
+      return map;
+    }
+
+    function animateReflow(before){
+      before.forEach((oldRect,el)=>{
+        if(!el.isConnected || el.classList.contains('dragging-card')) return;
+        const now = el.getBoundingClientRect();
+        const dx = oldRect.left-now.left;
+        const dy = oldRect.top-now.top;
+        if(Math.abs(dx)>.5 || Math.abs(dy)>.5){
+          el.animate(
+            [{transform:`translate(${dx}px, ${dy}px)`},{transform:'translate(0,0)'}],
+            {duration:190,easing:'cubic-bezier(.2,.78,.2,1)'}
+          );
+        }
+      });
+    }
+
+    function columnAt(x,y){
+      const el = document.elementFromPoint(x,y);
+      return el ? el.closest('[data-drop-column]') : null;
+    }
+
+    function insertionPoint(zone,y){
+      const cards = [...zone.querySelectorAll('.note:not(.dragging-card)')];
+      for(const card of cards){
+        const r = card.getBoundingClientRect();
+        if(y < r.top+r.height/2) return card;
+      }
+      return null;
+    }
+
+    function clearHighlight(){
+      document.querySelectorAll('.column').forEach(c=>c.classList.remove('drop-active'));
+    }
+
+    function movePlaceholder(x,y){
+      if(!drag) return;
+      const col = columnAt(x,y);
+      clearHighlight();
+      if(!col) return;
+
+      col.classList.add('drop-active');
+      const zone = col.querySelector('.cards');
+      const before = allCardRects();
+      const target = insertionPoint(zone,y);
+
+      if(target) zone.insertBefore(drag.placeholder,target);
+      else zone.appendChild(drag.placeholder);
+
+      animateReflow(before);
+    }
+
+    function beginDrag(note,e){
+      note.classList.remove('press-shrink');
+
+      // Force layout after removing shrink so size is always the real 100% card size.
+      void note.offsetWidth;
+      const rect = note.getBoundingClientRect();
+      const originZone = note.parentElement;
+      const originNext = note.nextElementSibling;
+
+      const placeholder = document.createElement('div');
+      placeholder.className = 'note-placeholder';
+      placeholder.style.height = rect.height+'px';
+      originZone.insertBefore(placeholder,note);
+
+      drag = {
+        note,
+        noteId:note.dataset.noteId,
+        placeholder,
+        originZone,
+        originNext,
+        offsetX:e.clientX-rect.left,
+        offsetY:e.clientY-rect.top,
+        lastX:e.clientX,
+        phase:0
+      };
+
+      note.getAnimations().forEach(a=>a.cancel());
+      note.classList.add('dragging-card');
+      note.style.width = rect.width+'px';
+      note.style.height = rect.height+'px';
+      note.style.left = rect.left+'px';
+      note.style.top = rect.top+'px';
+
+      document.body.appendChild(note);
+      document.body.style.userSelect='none';
+      document.body.style.cursor='grabbing';
+
+      moveFloating(e.clientX,e.clientY);
+      movePlaceholder(e.clientX,e.clientY);
+    }
+
+    function moveFloating(x,y){
+      if(!drag) return;
+      const vx = x-drag.lastX;
+      drag.lastX=x;
+      drag.phase += .58;
+
+      const bob = Math.sin(drag.phase)*1.7;
+      const wave = Math.sin(drag.phase*.72)*.42;
+      const tilt = Math.max(-1.0,Math.min(1.0,vx*.035));
+
+      drag.note.style.left=(x-drag.offsetX)+'px';
+      drag.note.style.top=(y-drag.offsetY)+'px';
+      drag.note.style.transform=`translateY(${(-3+bob).toFixed(2)}px) scale(1.015) rotate(${(tilt+wave).toFixed(2)}deg)`;
+    }
+
+    function restorePlaceholderToOrigin(active){
+      const before = allCardRects();
+      if(active.originNext && active.originNext.parentElement===active.originZone){
+        active.originZone.insertBefore(active.placeholder,active.originNext);
+      }else{
+        active.originZone.appendChild(active.placeholder);
+      }
+      animateReflow(before);
+    }
+
+    function cleanupCard(note){
+      note.classList.remove('dragging-card','press-shrink');
+      for(const prop of [
+        'width','height','left','top','position','zIndex','margin','pointerEvents',
+        'cursor','transition','willChange','transform','filter','boxShadow'
+      ]) note.style[prop]='';
+    }
+
+    function commitMoveToState(noteId,destinationColId,destinationIndex){
+      let moving = null;
+
+      for(const col of state.columns){
+        const arr = state.notes[col.id] || [];
+        const idx = arr.findIndex(n=>n.id===noteId);
+        if(idx!==-1){
+          moving = arr.splice(idx,1)[0];
+          break;
+        }
+      }
+
+      if(!moving) return false;
+
+      if(!state.notes[destinationColId]) state.notes[destinationColId]=[];
+      const dest = state.notes[destinationColId];
+      const safeIndex = Math.max(0,Math.min(destinationIndex,dest.length));
+      dest.splice(safeIndex,0,moving);
+      saveState();
+      return true;
+    }
+
+    function finishDrag(x,y){
+      if(!drag) return;
+
+      const active = drag;
+      const dropCol = columnAt(x,y);
+      const validDrop = !!dropCol;
+
+      if(!validDrop){
+        restorePlaceholderToOrigin(active);
+      }
+
+      clearHighlight();
+      document.body.style.userSelect='';
+      document.body.style.cursor='';
+
+      // Determine the final destination from the placeholder before animating.
+      const targetZone = active.placeholder.parentElement;
+      const destinationCol = targetZone.closest('[data-drop-column]');
+      const siblings = [...targetZone.children];
+      const destinationIndex = siblings.indexOf(active.placeholder);
+
+      const targetRect = active.placeholder.getBoundingClientRect();
+      const currentRect = active.note.getBoundingClientRect();
+
+      // Freeze current card transform into the animation; do not save state until success.
+      active.note.getAnimations().forEach(a=>a.cancel());
+
+      const animation = active.note.animate([
+        {
+          left:currentRect.left+'px',
+          top:currentRect.top+'px',
+          transform:'translateY(-2px) scale(1.015) rotate(0deg)'
+        },
+        {
+          left:(currentRect.left+(targetRect.left-currentRect.left)*.72)+'px',
+          top:(currentRect.top+(targetRect.top-currentRect.top)*.72-3)+'px',
+          transform:'translateY(-1px) scale(1.006) rotate(.2deg)'
+        },
+        {
+          left:targetRect.left+'px',
+          top:targetRect.top+'px',
+          transform:'translateY(0) scale(1) rotate(0deg)'
+        }
+      ],{
+        duration:220,
+        easing:'cubic-bezier(.18,.82,.25,1)',
+        fill:'forwards'
+      });
+
+      // Block a second pointer event from touching this drag transaction.
+      drag = null;
+
+      animation.onfinish = ()=>{
+        animation.cancel();
+
+        // Put the real card exactly into the reserved slot.
+        active.placeholder.replaceWith(active.note);
+        cleanupCard(active.note);
+
+        // Update data directly. Never rebuild all notes from transient drag DOM.
+        if(validDrop && destinationCol){
+          commitMoveToState(active.noteId,destinationCol.dataset.dropColumn,destinationIndex);
+        }
+
+        active.note.classList.add('drop-settle');
+        setTimeout(()=>active.note.classList.remove('drop-settle'),430);
+
+        updateCounts();
+        showToast(validDrop ? 'تم نقل البطاقة' : 'تم إلغاء النقل');
+      };
+    }
+
+    function cancelPress(){
+      if(pressed){
+        pressed.note.classList.remove('press-shrink');
+        pressed=null;
+      }
+    }
+
+    document.querySelectorAll('.note').forEach(note=>{
+      note.onpointerdown=(e)=>{
+        if(e.button!==0 || isInteractiveTarget(e.target)) return;
+        e.preventDefault();
+        pressed={note,startX:e.clientX,startY:e.clientY};
+        note.classList.add('press-shrink');
+      };
+    });
+
+    window.onpointermove=(e)=>{
+      if(pressed && !drag){
+        if(Math.hypot(e.clientX-pressed.startX,e.clientY-pressed.startY)>=threshold){
+          const note=pressed.note;
+          pressed=null;
+          beginDrag(note,e);
+        }
+      }
+
+      if(drag){
+        e.preventDefault();
+        moveFloating(e.clientX,e.clientY);
+        movePlaceholder(e.clientX,e.clientY);
+      }
+    };
+
+    window.onpointerup=(e)=>{
+      if(drag){
+        e.preventDefault();
+        finishDrag(e.clientX,e.clientY);
+      }else{
+        cancelPress();
+      }
+    };
+
+    window.onpointercancel=(e)=>{
+      if(drag){
+        finishDrag(-9999,-9999);
+      }else{
+        cancelPress();
+      }
+    };
+
+    document.querySelectorAll('.stars').forEach(starsBox=>{
+      starsBox.querySelectorAll('.star').forEach(star=>{
+        star.onclick=()=>{
+          const noteEl=star.closest('.note');
+          const note=getNoteById(noteEl.dataset.noteId);
+          const value=Number(star.dataset.value);
+          if(note){
+            note.rating=value;
+            saveState();
+            renderBoard();
+          }
+        };
+      });
+    });
+  }
+
+  function getDragAfterElement(container, y){
+    const els=[...container.querySelectorAll('.note')];
+    return els.reduce((closest,child)=>{
+      const box=child.getBoundingClientRect();
+      const offset=y-box.top-box.height/2;
+      if(offset<0 && offset>closest.offset){
+        return {offset,element:child};
+      }
+      return closest;
+    },{offset:Number.NEGATIVE_INFINITY}).element;
+  }
+
+  function renderProfile(){
+    const brand = document.getElementById('brandTitle');
+    const topAvatar = document.getElementById('topAvatar');
+    if(brand) brand.textContent = (state.notebookName || 'مفكرتي') + ' ✦';
+
+    const applyAvatar = (el)=>{
+      if(!el) return;
+      if(state.profileImage){
+        el.textContent = '';
+        el.style.backgroundImage = `url("${state.profileImage}")`;
+        el.style.backgroundSize = 'cover';
+        el.style.backgroundPosition = 'center';
+      }else{
+        el.style.backgroundImage = '';
+        el.textContent = 'ج';
+      }
+    };
+    applyAvatar(topAvatar);
+    applyAvatar(document.getElementById('profilePreview'));
+  }
+
+  function applyViewSettings(){
+    document.body.dataset.viewLayout = state.viewLayout || 'columns';
+    document.body.dataset.cardSize = state.viewSettings.cardSize || 'medium';
+    document.body.dataset.viewSpacing = state.viewSettings.spacing || 'normal';
+    document.body.dataset.showDate = String(state.viewSettings.showDate !== false);
+    document.body.dataset.showRating = String(state.viewSettings.showRating !== false);
+    document.body.dataset.showChips = String(state.viewSettings.showChips !== false);
+    document.body.dataset.showIcons = String(state.viewSettings.showIcons !== false);
+
+    document.querySelectorAll('[data-layout-choice]').forEach(btn=>{
+      btn.classList.toggle('selected', btn.dataset.layoutChoice === state.viewLayout);
+    });
+    document.querySelectorAll('[data-card-size-choice]').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.cardSizeChoice === state.viewSettings.cardSize);
+    });
+    document.querySelectorAll('[data-spacing-choice]').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.spacingChoice === state.viewSettings.spacing);
+    });
+
+    const toggleMap = {
+      showDate: state.viewSettings.showDate,
+      showRating: state.viewSettings.showRating,
+      showChips: state.viewSettings.showChips,
+      showIcons: state.viewSettings.showIcons
+    };
+    document.querySelectorAll('[data-toggle-view]').forEach(btn=>{
+      const key = btn.dataset.toggleView;
+      const active = toggleMap[key] !== false;
+      btn.classList.toggle('active', active);
+      const status = btn.querySelector('.status');
+      if(status) status.textContent = active ? 'ON' : 'OFF';
+    });
+  }
+
+  // Prevent accidental browser selection inside the workspace, including during drag.
+  document.addEventListener('selectstart', e=>{
+    if(e.target.closest('.board')) e.preventDefault();
+  });
+  document.addEventListener('dragstart', e=>{
+    if(e.target.closest('.board')) e.preventDefault();
+  });
+
+  // search
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', applySearch);
+
+  function applySearch(){
+    const q = searchInput.value.trim().toLowerCase();
+    document.querySelectorAll('.note').forEach(note=>{
+      const text = note.innerText.toLowerCase();
+      note.style.display = text.includes(q) ? '' : 'none';
+    });
+  }
+
+  // note modal
+  const noteModal = document.getElementById('noteModal');
+  const pendingAttachmentsEl=document.getElementById('pendingAttachments');
+  let pendingAttachments=[];
+  function renderPendingAttachments(){if(!pendingAttachmentsEl)return;pendingAttachmentsEl.innerHTML=pendingAttachments.map((a,i)=>`<div class="attachment-pill"><span></span><button type="button" class="attachment-remove" data-remove-attachment="">&times;</button></div>`).join('');pendingAttachmentsEl.querySelectorAll('[data-remove-attachment]').forEach(b=>b.onclick=()=>{pendingAttachments.splice(Number(b.dataset.removeAttachment),1);renderPendingAttachments()})}
+  document.getElementById('addAttachmentBtn').onclick=async()=>{const a=await window.__desktopPickAttachment?.();if(!a)return;pendingAttachments.push({id:a.id,kind:a.kind,path:a.path,displayName:a.display_name||a.displayName||''});renderPendingAttachments()};
+  function openNoteModal(columnId='personal'){
+    pendingAttachments=[];renderPendingAttachments();
+    document.getElementById('noteColumn').value = columnId;
+    noteModal.classList.add('open');
+    setTimeout(()=>document.getElementById('noteTitle').focus(),50);
+  }
+  function closeNoteModal(){
+    noteModal.classList.remove('open');
+    document.getElementById('noteTitle').value = '';
+    document.getElementById('noteText').value = '';
+    pendingAttachments=[];renderPendingAttachments();
+  }
+
+  document.getElementById('addBtn').onclick = ()=> openNoteModal(state.columns[0].id);
+  document.getElementById('cancelNote').onclick = closeNoteModal;
+  noteModal.addEventListener('click', e=>{ if(e.target===noteModal) closeNoteModal(); });
+
+  document.getElementById('saveNote').onclick = ()=>{
+    const title = document.getElementById('noteTitle').value.trim() || 'ملاحظة بدون عنوان';
+    const text = document.getElementById('noteText').value.trim() || 'لا يوجد محتوى بعد.';
+    const colId = document.getElementById('noteColumn').value;
+    state.notes[colId].unshift({
+      id:id(),
+      emoji:'📝',
+      title,
+      text,
+      date:new Date().toLocaleDateString('en-CA'),
+      rating:0,
+      chips:[],
+      attachments:pendingAttachments.map(a=>({...a}))
+    });
+    saveState();
+    renderBoard();
+    closeNoteModal();
+    showToast('تمت إضافة الملاحظة ✨');
+  };
+
+  // profile menu + Settings + Notes management + Theme customization
+  const profileBtn = document.getElementById('profileBtn');
+  const profileMenu = document.getElementById('profileMenu');
+  const settingsModal = document.getElementById('settingsModal');
+  const manageModal = document.getElementById('manageModal');
+  const themeModal = document.getElementById('themeModal');
+
+  function applyTheme(theme){
+    state.theme = theme;
+    document.body.dataset.theme = theme;
+    document.querySelectorAll('.theme-choice').forEach(btn=>{
+      btn.classList.toggle('selected', btn.dataset.theme === theme);
+    });
+    saveState();
+  }
+
+  profileBtn.addEventListener('click', e=>{
+    e.stopPropagation();
+    profileMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', ()=> profileMenu.classList.remove('open'));
+
+  const profileModal = document.getElementById('profileModal');
+  const profileImageInput = document.getElementById('profileImageInput');
+
+  document.getElementById('profileSettingsBtn').onclick = ()=>{
+    profileMenu.classList.remove('open');
+    document.getElementById('notebookNameInput').value = state.notebookName || 'مفكرتي';
+    profileImageInput.value = '';
+    profileModal.classList.add('open');
+    renderProfile();
+  };
+
+  document.getElementById('cancelProfile').onclick = ()=> profileModal.classList.remove('open');
+  profileModal.addEventListener('click', e=>{
+    if(e.target === profileModal) profileModal.classList.remove('open');
+  });
+
+  profileImageInput.addEventListener('change', ()=>{
+    const file = profileImageInput.files && profileImageInput.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const preview = document.getElementById('profilePreview');
+      preview.textContent = '';
+      preview.style.backgroundImage = `url("${reader.result}")`;
+      preview.style.backgroundSize = 'cover';
+      preview.style.backgroundPosition = 'center';
+      preview.dataset.pendingImage = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('saveProfile').onclick = ()=>{
+    const name = document.getElementById('notebookNameInput').value.trim();
+    if(name) state.notebookName = name;
+
+    const preview = document.getElementById('profilePreview');
+    if(preview.dataset.pendingImage){
+      state.profileImage = preview.dataset.pendingImage;
+      delete preview.dataset.pendingImage;
+    }
+
+    saveState();
+    renderProfile();
+    profileModal.classList.remove('open');
+    showToast('تم حفظ الملف الشخصي');
+  };
+
+  document.getElementById('removeProfileImage').onclick = ()=>{
+    state.profileImage = '';
+    const preview = document.getElementById('profilePreview');
+    delete preview.dataset.pendingImage;
+    saveState();
+    renderProfile();
+    showToast('تمت إزالة الصورة');
+  };
+
+
+  document.getElementById('settingsBtn').onclick = ()=>{
+    profileMenu.classList.remove('open');
+    settingsModal.classList.add('open');
+  };
+  document.getElementById('closeSettings').onclick = ()=> settingsModal.classList.remove('open');
+  settingsModal.addEventListener('click', e=>{ if(e.target===settingsModal) settingsModal.classList.remove('open'); });
+
+  document.getElementById('manageNotesFromSettings').onclick = ()=>{
+    settingsModal.classList.remove('open');
+    document.getElementById('colName1').value = state.columns[0].label;
+    document.getElementById('colName2').value = state.columns[1].label;
+    document.getElementById('colName3').value = state.columns[2].label;
+    manageModal.classList.add('open');
+  };
+
+  document.getElementById('customizeBtn').onclick = ()=>{
+    profileMenu.classList.remove('open');
+    themeModal.classList.add('open');
+    applyTheme(state.theme || 'blue');
+  };
+  document.getElementById('closeTheme').onclick = ()=> themeModal.classList.remove('open');
+  themeModal.addEventListener('click', e=>{ if(e.target===themeModal) themeModal.classList.remove('open'); });
+  document.querySelectorAll('.theme-choice').forEach(btn=>{
+    btn.onclick = ()=>{
+      applyTheme(btn.dataset.theme);
+      showToast('تم تغيير الثيم');
+    };
+  });
+
+  document.getElementById('cancelManage').onclick = ()=> manageModal.classList.remove('open');
+  manageModal.addEventListener('click', e=>{ if(e.target===manageModal) manageModal.classList.remove('open'); });
+
+  document.getElementById('saveColumns').onclick = ()=>{
+    state.columns[0].label = document.getElementById('colName1').value.trim() || state.columns[0].label;
+    state.columns[1].label = document.getElementById('colName2').value.trim() || state.columns[1].label;
+    state.columns[2].label = document.getElementById('colName3').value.trim() || state.columns[2].label;
+    saveState();
+    renderBoard();
+    manageModal.classList.remove('open');
+    showToast('تم تحديث أسماء الأعمدة');
+  };
+
+  // topbar controls
+  document.getElementById('hideBtn').addEventListener('click',()=>{
+    shell.classList.add('hidden-mode');
+    showToast('محاكاة: تم إخفاء المفكرة إلى الخلفية');
+  });
+
+  document.getElementById('restoreBtn').addEventListener('click',()=>{
+    shell.classList.remove('hidden-mode');
+  });
+
+  // Native desktop minimize is handled in desktop.js
+
+  document.getElementById('fullBtn').addEventListener('click',async()=>{
+    try{
+      if(!document.fullscreenElement){
+        await document.documentElement.requestFullscreen();
+      }else{
+        await document.exitFullscreen();
+      }
+    }catch(e){
+      showToast('المتصفح منع وضع ملء الشاشة');
+    }
+  });
+
+  const viewLayoutModal = document.getElementById('viewLayoutModal');
+  const viewCustomizeModal = document.getElementById('viewCustomizeModal');
+
+  document.getElementById('layoutBtn').onclick = ()=>{
+    applyViewSettings();
+    viewLayoutModal.classList.add('open');
+  };
+  document.getElementById('closeViewLayout').onclick = ()=> viewLayoutModal.classList.remove('open');
+  viewLayoutModal.addEventListener('click', e=>{
+    if(e.target === viewLayoutModal) viewLayoutModal.classList.remove('open');
+  });
+
+  document.querySelectorAll('[data-layout-choice]').forEach(btn=>{
+    btn.onclick = ()=>{
+      state.viewLayout = btn.dataset.layoutChoice;
+      saveState();
+      applyViewSettings();
+      showToast('تم تغيير شكل العرض');
+    };
+  });
+
+  document.getElementById('filterBtn').onclick = ()=>{
+    applyViewSettings();
+    viewCustomizeModal.classList.add('open');
+  };
+  document.getElementById('closeViewCustomize').onclick = ()=> viewCustomizeModal.classList.remove('open');
+  viewCustomizeModal.addEventListener('click', e=>{
+    if(e.target === viewCustomizeModal) viewCustomizeModal.classList.remove('open');
+  });
+
+  document.querySelectorAll('[data-card-size-choice]').forEach(btn=>{
+    btn.onclick = ()=>{
+      state.viewSettings.cardSize = btn.dataset.cardSizeChoice;
+      saveState();
+      applyViewSettings();
+    };
+  });
+
+  document.querySelectorAll('[data-spacing-choice]').forEach(btn=>{
+    btn.onclick = ()=>{
+      state.viewSettings.spacing = btn.dataset.spacingChoice;
+      saveState();
+      applyViewSettings();
+    };
+  });
+
+  document.querySelectorAll('[data-toggle-view]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const key = btn.dataset.toggleView;
+      state.viewSettings[key] = (state.viewSettings[key] === false);
+      saveState();
+      applyViewSettings();
+    };
+  });
+
+  document.getElementById('resetViewSettings').onclick = ()=>{
+    state.viewLayout = 'columns';
+    state.viewSettings = {
+      cardSize:'medium',
+      spacing:'normal',
+      showDate:true,
+      showRating:true,
+      showChips:true,
+      showIcons:true
+    };
+    saveState();
+    applyViewSettings();
+    showToast('تمت إعادة إعدادات العرض');
+  };
+
+  applyTheme(state.theme || 'blue');
+  applyViewSettings();
+  renderProfile();
+  renderBoard();
+  updateCounts();
+</script>
+
+<script>
+window.__notebookDebug = {
+  cardState(){
+    return [...document.querySelectorAll('.cards .note')].map(n=>({
+      id:n.dataset.noteId,
+      title:n.querySelector('.note-title')?.textContent || '',
+      column:n.closest('[data-column]')?.dataset.column || null,
+      width:n.getBoundingClientRect().width,
+      height:n.getBoundingClientRect().height,
+      transform:getComputedStyle(n).transform,
+      classes:[...n.classList]
+    }));
+  }
+};
+</script>
+
+<script type="module" src="/desktop.js"></script>
+<div class="native-resize-handle" data-resize-direction="North"></div><div class="native-resize-handle" data-resize-direction="South"></div><div class="native-resize-handle" data-resize-direction="West"></div><div class="native-resize-handle" data-resize-direction="East"></div><div class="native-resize-handle" data-resize-direction="NorthWest"></div><div class="native-resize-handle" data-resize-direction="NorthEast"></div><div class="native-resize-handle" data-resize-direction="SouthWest"></div><div class="native-resize-handle" data-resize-direction="SouthEast"></div></body>
+</html>
+
+<style>
+  body{color:var(--ink)}
+  .brand,.profile-meta b,.col-head,.note-title,.modal h3{color:var(--ink)}
+  .profile-meta small,.note p,.date,.field label,.drag-tip{color:var(--muted)}
+  .column.personal,.column.study,.column.work{
+    background:linear-gradient(180deg,rgba(var(--accent-rgb),.075),rgba(255,255,255,.22));
+  }
+  body[data-theme="black"] .topbar,
+  body[data-theme="black"] .toolbar,
+  body[data-theme="black"] .modal,
+  body[data-theme="black"] .profile-menu{
+    color:var(--ink);
+    background:rgba(26,34,47,.90);
+  }
+  body[data-theme="black"] .search input,
+  body[data-theme="black"] .field input,
+  body[data-theme="black"] .field textarea,
+  body[data-theme="black"] .field select,
+  body[data-theme="black"] .settings-row,
+  body[data-theme="black"] .theme-choice{
+    background:rgba(47,58,75,.84);
+    color:var(--ink);
+  }
+</style>
