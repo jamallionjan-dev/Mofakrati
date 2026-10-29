@@ -165,7 +165,7 @@
     background:linear-gradient(120deg,var(--accent-2),var(--accent),var(--accent-2));
     background-size:100% 100%;
     box-shadow:0 25px 80px rgba(42,74,133,.24);
-    transition:.25s;
+    transition:background .25s,box-shadow .25s;
   }
   body[data-theme="auto"] .shell-wrap{
     background:linear-gradient(120deg,#7fe5ff,#5f84ff,#ff7adb,#8ef6ff);
@@ -273,6 +273,15 @@
     cursor:pointer;
     transition:.22s;
     font:inherit;
+  }
+  #addBtn{
+    width:190px;
+    min-width:190px;
+    max-width:190px;
+    justify-content:center;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
   .primary-btn{
     padding:0 20px;
@@ -393,9 +402,17 @@
     from{opacity:0;transform:translateY(10px) scale(.98)}
     to{opacity:1;transform:none}
   }
-  .note-top{display:flex;align-items:center;gap:10px}
-  .note-title{font-weight:900;flex:1}
-  .more{color:#7790b0;font-size:20px}
+  .note-top{display:flex;align-items:center;gap:10px;min-width:0;padding-inline-end:0}
+  .note-title{font-weight:900;flex:1;min-width:0;line-height:1.45;overflow-wrap:anywhere}
+  .note-actions{display:flex;align-items:center;gap:5px;flex:0 0 auto}
+  .note-actions button{width:30px;height:30px;border:1px solid rgba(var(--accent-rgb),.12);border-radius:10px;display:grid;place-items:center;cursor:pointer;transition:background .16s ease,border-color .16s ease,transform .16s ease}
+  .note-actions button:hover{transform:translateY(-1px)}
+  .note-delete-confirm{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 2px;padding:10px 11px;border:1px solid rgba(229,72,77,.18);border-radius:13px;background:rgba(229,72,77,.055);color:var(--ink);font-size:12px}
+  .note-delete-confirm[hidden]{display:none}
+  .note-delete-confirm-text{flex:1 1 100%;line-height:1.5}
+  .note-delete-confirm button{border:0;border-radius:9px;padding:6px 11px;cursor:pointer;font:inherit;font-weight:800}
+  .note-delete-confirm-action{background:#d94149;color:#fff}
+  .note-delete-cancel{background:rgba(var(--accent-rgb),.10);color:var(--ink)}
   .note p{margin:10px 0;color:#5f6f86;font-size:13.5px;line-height:1.7}
   .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .attachment-picker-row{display:flex;gap:10px;flex-wrap:wrap}
@@ -403,11 +420,23 @@
   .attachment-pill,.note-attachment{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:10px;background:rgba(var(--accent-rgb),.08);font-size:12px;max-width:220px}
   .attachment-pill span,.note-attachment span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .attachment-remove{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:15px;padding:0 2px}
+  .note-attachments{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+  .note-attachment{
+    width:28px;height:28px;min-width:28px;padding:0;border-radius:8px;
+    display:inline-grid;place-items:center;
+    background:rgba(var(--accent-rgb),.10);
+    border:1px solid rgba(var(--accent-rgb),.12);
+    font-size:15px;line-height:1;cursor:pointer;
+    transition:transform .14s ease,background .14s ease;
+  }
+  .note-attachment:hover{transform:scale(1.08);background:rgba(var(--accent-rgb),.16)}
+  .note-attachment span{display:none!important}
   .chip{
     padding:4px 8px;border-radius:10px;font-size:11px;font-weight:700;
     background:rgba(71,127,255,.08);color:#5772a0;
   }
   .note-foot{display:flex;align-items:center;gap:8px;margin-top:12px}
+.note-delete{background:rgba(229,72,77,.09);color:#b93a40;font-size:14px}.note-delete:hover{background:rgba(229,72,77,.18);border-color:rgba(229,72,77,.24);color:#d12f37}.note-copy{background:rgba(var(--accent-rgb),.10);color:var(--ink);font-size:16px}.note-copy:hover{background:rgba(var(--accent-rgb),.19);border-color:rgba(var(--accent-rgb),.28)}.note-copy:disabled{opacity:.55;cursor:wait;transform:none}.priority-badge{position:absolute;bottom:9px;left:11px;border:0;border-radius:8px;padding:3px 9px;font-size:10.5px;font-weight:900;color:#fff;cursor:pointer;min-width:46px;box-shadow:0 3px 9px rgba(0,0,0,.10)}.priority-strong{background:#e5484d}.priority-medium{background:#3478f6}.priority-weak{background:#8bbcf6;color:#173b68}.note{padding-bottom:36px}
   .date{color:#8797ae;font-size:11.5px}
   .stars{margin-inline-start:auto;display:flex;direction:ltr;gap:1px}
   .star{font-size:16px;color:#c9d2df;cursor:pointer;transition:.15s transform,.15s color}
@@ -575,11 +604,28 @@
     background-image:linear-gradient(180deg,rgba(var(--accent-rgb),.055),rgba(255,255,255,.20));
   }
 
-  @media(max-width:1000px){
+  @media(max-width:760px){
     .board{grid-template-columns:1fr;overflow:auto}
     .column{min-height:340px}
     .search{display:none}
   }
+/* i18n-fixed-geometry */
+#addBtn{width:190px;min-width:190px;max-width:190px;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.profile-menu button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.settings-row{min-height:52px}
+.settings-row strong{display:block;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.settings-row>span:first-child{width:30px;min-width:30px;text-align:center}
+.settings-row>span:last-child{width:78px;min-width:78px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#languageCurrent{width:78px;min-width:78px}
+.modal h3{min-height:30px;display:flex;align-items:center}
+.modal-actions{min-height:42px}
+.modal-actions button{min-width:118px;max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.view-options{min-height:104px}
+.view-option strong{display:block;min-height:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.segmented .seg-btn{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toggle-list .view-toggle span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.theme-choice{min-height:44px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#viewLayoutDesc,#profileDesc,#themeDesc,#manageColumnsTip{min-height:36px}
 </style>
 
 <style id="v8-scrollbar-fix">
@@ -844,14 +890,77 @@ body::before{
   .window-drag-zone{left:165px;right:210px}
 }
 </style>
+<style id="MUFAKKIRATI_IMAGE_ATTACHMENT_PREVIEW">.note-attachment.image-preview{width:100%;height:150px;min-width:0;padding:0;border-radius:14px;overflow:hidden;display:block;background:rgba(var(--accent-rgb),.07)}.note-attachment.image-preview img{width:100%;height:100%;display:block;object-fit:cover}.note-attachment.image-preview:hover{transform:none}.note-attachments:has(.image-preview){width:100%}</style>
+<style id="MUFAKKIRATI_FLOATING_CIRCLE">
+.float-window-btn{width:24px;height:24px;border:0;border-radius:50%;display:grid;place-items:center;cursor:pointer;background:rgba(var(--accent-rgb),.16);color:var(--ink);font-size:13px;font-weight:900}
+#floatingOrb{display:none;position:fixed;inset:0;width:96px;height:96px;border-radius:50%;background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(var(--accent-rgb),.22));border:2px solid rgba(var(--accent-rgb),.34);box-shadow:0 14px 38px rgba(25,42,80,.28);overflow:hidden}
+#orbRestore{position:absolute;inset:18px;width:60px;height:60px;border:0;border-radius:50%;background:rgba(255,255,255,.8);font-size:30px;cursor:pointer}
+#orbDragHandle{position:absolute;top:2px;left:31px;width:34px;height:17px;display:grid;place-items:center;cursor:grab;font-weight:900;z-index:3}
+body.floating-orb{background:transparent!important;overflow:hidden!important}
+body.floating-orb #shell,body.floating-orb .native-resize-handle{display:none!important}
+body.floating-orb #floatingOrb{display:block}
+.quick-capture-btn{width:42px;height:42px;border:0;border-radius:15px;background:rgba(var(--accent-rgb),.14);color:var(--accent);font-size:22px;font-weight:900;cursor:pointer}
+.smart-sort-btn.active{background:rgba(var(--accent-rgb),.16);color:var(--accent);border-color:rgba(var(--accent-rgb),.3)}
+.smart-sort-note{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:4px 8px;border-radius:9px;background:rgba(255,190,75,.14);color:#976018;font-size:10px;font-weight:800}
+.note-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.note-link-chip{border:1px solid rgba(var(--accent-rgb),.16);border-radius:9px;padding:4px 8px;background:rgba(var(--accent-rgb),.07);color:var(--accent);font:inherit;font-size:11px;cursor:pointer}
+.note-next-step{display:flex;align-items:flex-start;gap:7px;margin-top:9px;padding:8px 9px;border-radius:11px;background:rgba(255,255,255,.45);font-size:11px;line-height:1.5;color:var(--ink)}
+.note-next-step-toggle{flex:0 0 auto;width:17px;height:17px;margin-top:1px;accent-color:var(--accent);cursor:pointer}
+.note-next-step.done .note-next-step-text{text-decoration:line-through;opacity:.58}
+.note-next-step-add{margin-top:8px;padding:4px 8px;border:1px dashed rgba(var(--accent-rgb),.3);border-radius:9px;background:transparent;color:var(--accent);font:inherit;font-size:10px;cursor:pointer;opacity:0;transition:opacity .15s ease}
+.note:hover .note-next-step-add,.note-next-step-add:focus-visible{opacity:1}
+.note[data-density="short"]{padding-block:12px}
+.note[data-density="short"] p{margin-block:6px;font-size:12.5px}
+.note[data-density="long"] p{font-size:14px;line-height:1.85}
+body[data-view-layout="adaptive"] .board{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+body[data-view-layout="adaptive"] .note[data-density="short"]{box-shadow:0 6px 16px rgba(64,90,133,.08),inset 0 1px 0 rgba(255,255,255,.92)}
+body[data-view-layout="adaptive"] .note[data-density="long"]{padding:22px 20px 18px;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(var(--accent-rgb),.055));border-color:rgba(var(--accent-rgb),.16)}
+.feature-view{width:min(100%,1180px);margin:0 auto;padding:14px 24px 28px;overflow:auto;min-height:0}
+.feature-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}
+.feature-heading h2{margin:0;color:var(--ink);font-size:22px}
+.feature-subtitle{margin:5px 0 0;color:var(--muted);font-size:13px}
+.today-thought,.feature-panel{padding:18px;border:1px solid rgba(255,255,255,.86);border-radius:22px;background:rgba(255,255,255,.58);box-shadow:0 10px 28px rgba(55,86,135,.08);backdrop-filter:blur(14px)}
+.today-thought{margin-bottom:16px}
+.today-thought label,.feature-panel h3{display:block;margin:0 0 10px;font-size:14px;font-weight:900;color:var(--ink)}
+.today-thought textarea{width:100%;min-height:74px;resize:vertical;border:1px solid rgba(var(--accent-rgb),.16);border-radius:14px;padding:11px 13px;background:rgba(255,255,255,.72);color:var(--ink);font:inherit;line-height:1.6;outline:none}
+.focus-grid,.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.dashboard-grid{margin-top:14px;grid-template-columns:1fr 1fr}
+.focus-card,.timeline-card,.task-row,.reminder-row{padding:14px;border:1px solid rgba(var(--accent-rgb),.12);border-radius:16px;background:rgba(255,255,255,.66)}
+.focus-card{cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
+.focus-card:hover,.timeline-card:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(55,86,135,.1)}
+.focus-card strong,.timeline-card strong{display:block;color:var(--ink);font-size:14px;line-height:1.45}
+.focus-card p,.timeline-card p{margin:7px 0 0;color:var(--muted);font-size:12px;line-height:1.6}
+.focus-reason{display:inline-block;margin-bottom:8px;padding:4px 8px;border-radius:8px;background:rgba(255,190,75,.14);color:#946018;font-size:10px;font-weight:900}
+.task-row,.reminder-row{display:flex;align-items:center;gap:9px;margin-top:8px;color:var(--ink);font-size:12px}
+.task-row input{accent-color:var(--accent)}
+.feature-panel h3 span{font-size:11px;color:var(--muted);font-weight:600}
+.timeline-month{margin:0 0 20px}
+.timeline-month h3{margin:0 0 10px;color:var(--accent);font-size:14px}
+.timeline-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.timeline-card{cursor:pointer}
+.note-link-suggestions{position:relative;z-index:10;display:grid;gap:5px;margin-top:6px;padding:7px;border:1px solid rgba(var(--accent-rgb),.16);border-radius:13px;background:rgba(255,255,255,.96);box-shadow:0 10px 26px rgba(40,70,120,.12)}
+.note-link-suggestions[hidden]{display:none}
+.note-link-suggestions button{padding:8px 10px;border:0;border-radius:9px;background:transparent;color:var(--ink);text-align:start;cursor:pointer}
+.note-link-suggestions button:hover{background:rgba(var(--accent-rgb),.09)}
+.selected-note-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.selected-note-links:empty{display:none}
+.selected-note-links .note-link-chip{display:inline-flex;align-items:center;gap:6px}
+.selected-note-links [data-remove-link]{border:0;background:transparent;color:inherit;cursor:pointer}
+.quick-capture-dialog{max-width:530px}
+.quick-capture-dialog textarea{min-height:150px}
+#orbQuickCapture{position:absolute;right:4px;bottom:4px;width:30px;height:30px;border:2px solid rgba(255,255,255,.9);border-radius:50%;background:var(--accent);color:#fff;font-size:20px;line-height:1;cursor:pointer;box-shadow:0 4px 12px rgba(30,65,125,.22)}
+body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{display:block;overflow:auto}
+@media(max-width:1000px){body[data-view-layout="adaptive"] .board{grid-template-columns:repeat(2,minmax(0,1fr))}.focus-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-grid{grid-template-columns:1fr}.timeline-list{grid-template-columns:1fr}}
+@media(max-width:700px){body[data-view-layout="adaptive"] .board{grid-template-columns:1fr}.focus-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
 <div class="shell-wrap" id="shell">
   <div class="app">
     <div class="topbar">
-      <div class="window-drag-zone" id="windowDragZone" data-tauri-drag-region></div>
-      <div class="window-controls" title="أزرار النافذة">
+      <div class="window-drag-zone" id="windowDragZone"></div>
+      <div class="window-controls" title="أزرار النافذة"><button type="button" class="float-window-btn" id="floatBtn" title="الوضع العائم">◉</button>
         <button class="dot red" id="hideBtn" title="إخفاء إلى الخلفية"></button>
         <button class="dot yellow" id="fullBtn" title="ملء الشاشة / استعادة"></button>
         <button class="dot blue" id="minBtn" title="&#x062A;&#x0635;&#x063A;&#x064A;&#x0631; &#x0625;&#x0644;&#x0649; &#x0634;&#x0631;&#x064A;&#x0637; &#x0627;&#x0644;&#x0645;&#x0647;&#x0627;&#x0645;"></button>
@@ -874,6 +983,8 @@ body::before{
       <button class="primary-btn" id="addBtn"><span style="font-size:24px">＋</span> ملاحظة جديدة</button>
       <button class="icon-btn" id="layoutBtn" title="شكل العرض">▦</button>
       <button class="icon-btn" id="filterBtn" title="تخصيص العرض">☷</button>
+      <button class="icon-btn smart-sort-btn" id="smartSortBtn" title="ترتيب ذكي">✧</button>
+      <button class="quick-capture-btn" id="quickCaptureBtn" title="التقاط سريع">＋</button>
       <div class="search">
         <span>⌕</span>
         <input id="searchInput" type="text" placeholder="بحث في الملاحظات..." />
@@ -895,22 +1006,25 @@ body::before{
 
 <div class="modal-backdrop" id="viewLayoutModal">
   <div class="modal">
-    <h3>شكل العرض</h3>
-    <div style="color:var(--muted);font-size:13px">اختر الطريقة التي تريد عرض الملاحظات بها.</div>
+    <h3 id="viewLayoutTitle">شكل العرض</h3>
+    <div id="viewLayoutDesc" style="color:var(--muted);font-size:13px">اختر الطريقة التي تريد عرض الملاحظات بها.</div>
 
     <div class="view-options">
       <button class="view-option" data-layout-choice="columns">
         <span class="view-preview columns"><i></i><i></i><i></i></span>
-        <strong>أعمدة</strong>
+        <strong id="layoutColumnsLabel">أعمدة</strong>
       </button>
       <button class="view-option" data-layout-choice="compact">
         <span class="view-preview compact"><i></i><i></i><i></i></span>
-        <strong>مضغوط</strong>
+        <strong id="layoutCompactLabel">مضغوط</strong>
       </button>
       <button class="view-option" data-layout-choice="list">
         <span class="view-preview list"><i></i><i></i><i></i></span>
-        <strong>قائمة</strong>
+        <strong id="layoutListLabel">قائمة</strong>
       </button>
+      <button class="view-option" data-layout-choice="adaptive"><span class="view-preview compact"><i></i><i></i><i></i></span><strong id="layoutAdaptiveLabel">متكيف</strong></button>
+      <button class="view-option" data-layout-choice="today"><span class="view-preview list"><i></i><i></i><i></i></span><strong id="layoutTodayLabel">اليوم</strong></button>
+      <button class="view-option" data-layout-choice="timeline"><span class="view-preview list"><i></i><i></i><i></i></span><strong id="layoutTimelineLabel">الخط الزمني</strong></button>
     </div>
 
     <div class="modal-actions">
@@ -921,10 +1035,10 @@ body::before{
 
 <div class="modal-backdrop" id="viewCustomizeModal">
   <div class="modal">
-    <h3>تخصيص العرض</h3>
+    <h3 id="viewCustomizeTitle">تخصيص العرض</h3>
 
     <div class="customize-section">
-      <h4>حجم البطاقات</h4>
+      <h4 id="cardSizeTitle">حجم البطاقات</h4>
       <div class="segmented">
         <button class="seg-btn" data-card-size-choice="small">صغير</button>
         <button class="seg-btn" data-card-size-choice="medium">متوسط</button>
@@ -933,7 +1047,7 @@ body::before{
     </div>
 
     <div class="customize-section">
-      <h4>المسافات</h4>
+      <h4 id="spacingTitle">المسافات</h4>
       <div class="segmented">
         <button class="seg-btn" data-spacing-choice="tight">ضيقة</button>
         <button class="seg-btn" data-spacing-choice="normal">عادية</button>
@@ -942,7 +1056,7 @@ body::before{
     </div>
 
     <div class="customize-section">
-      <h4>تفاصيل البطاقات</h4>
+      <h4 id="detailsTitle">تفاصيل البطاقات</h4>
       <div class="toggle-list">
         <button class="view-toggle" data-toggle-view="showDate"><span>التاريخ</span><span class="status"></span></button>
         <button class="view-toggle" data-toggle-view="showRating"><span>التقييم</span><span class="status"></span></button>
@@ -960,38 +1074,49 @@ body::before{
 
 <div class="modal-backdrop" id="noteModal">
   <div class="modal">
-    <h3>إضافة ملاحظة جديدة</h3>
-    <div class="field"><label>العنوان</label><input id="noteTitle" placeholder="عنوان الملاحظة" /></div>
-    <div class="field"><label>المحتوى</label><textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea></div>
+    <h3 id="noteModalTitle">إضافة ملاحظة جديدة</h3>
+    <div class="field"><label id="lblNoteTitle">العنوان</label><input id="noteTitle" placeholder="عنوان الملاحظة" /></div>
+    <div class="field"><label id="lblNoteText">المحتوى</label><textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea></div>
+    <div class="note-link-suggestions" id="noteLinkSuggestions" hidden></div>
+    <div class="field"><label id="lblNoteNextStep">الخطوة التالية</label><input id="noteNextStep" placeholder="ما الإجراء الصغير التالي؟" /></div>
+    <div class="field"><label id="lblNoteLinks">روابط الملاحظات (@)</label><input id="noteLinkSearch" placeholder="اكتب @ ثم اسم ملاحظة" autocomplete="off" /><div class="selected-note-links" id="selectedNoteLinks"></div></div>
     <div class="field">
-      <label>العمود</label>
+      <label id="lblNoteColumn">العمود</label>
       <select id="noteColumn"></select>
     </div>
-    <div class="field"><label>&#x0627;&#x0644;&#x0645;&#x0631;&#x0641;&#x0642;&#x0627;&#x062a;</label><div class="attachment-picker-row"><button class="secondary" type="button" id="addAttachmentBtn">&#x1F4CE; &#x0625;&#x0631;&#x0641;&#x0627;&#x0642; &#x0645;&#x0644;&#x0641;</button></div><div class="attachment-list" id="pendingAttachments"></div></div>
+    <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label id="lblNoteEmoji"></label><input id="noteEmoji" maxlength="8" placeholder="📝" /></div>
+      <div><label id="lblNoteRating"></label><select id="noteRating"><option value="0">0</option><option value="1">1 ★</option><option value="2">2 ★</option><option value="3">3 ★</option><option value="4">4 ★</option><option value="5">5 ★</option></select></div>
+    </div>
+    <div class="field"><label id="lblNoteTags"></label><input id="noteTags" placeholder="work, idea, personal" /></div>    <div class="field"><label id="lblNoteReminder">&#x23F0; &#x0627;&#x0644;&#x0645;&#x0646;&#x0628;&#x0647;</label><div style="display:flex;gap:8px;align-items:center"><input id="noteReminder" type="datetime-local" style="flex:1"/><button class="secondary" type="button" id="clearReminderBtn">&#x0645;&#x0633;&#x062d;</button></div></div>
+    <div class="field"><label id="lblNoteAttachments">&#x0627;&#x0644;&#x0645;&#x0631;&#x0641;&#x0642;&#x0627;&#x062a;</label><div class="attachment-picker-row"><button class="secondary" type="button" id="addAttachmentBtn">&#x1F4CE; &#x0625;&#x0631;&#x0641;&#x0627;&#x0642; &#x0645;&#x0644;&#x0641;</button></div><div class="attachment-list" id="pendingAttachments"></div></div>
     <div class="modal-actions">
       <button class="primary-btn" id="saveNote">حفظ الملاحظة</button>
+      <button class="secondary" id="deleteNote" type="button" style="display:none;color:#c7363c"></button>
       <button class="secondary" id="cancelNote">إلغاء</button>
     </div>
   </div>
 </div>
 
+<div class="modal-backdrop" id="quickCaptureModal"><div class="modal quick-capture-dialog"><h3 id="quickCaptureTitle">التقاط سريع</h3><div class="field"><label id="quickCaptureTitleLabel">عنوان مختصر (اختياري)</label><input id="quickCaptureName" maxlength="120" /></div><div class="field"><label id="quickCaptureBodyLabel">الفكرة</label><textarea id="quickCaptureBody"></textarea></div><div class="field"><label id="quickCaptureColumnLabel">القسم</label><select id="quickCaptureColumn"></select></div><div class="modal-actions"><button class="primary-btn" id="quickCaptureSave">حفظ الفكرة</button><button class="secondary" id="quickCaptureCancel">إلغاء</button></div></div></div>
+
 
 
 <div class="modal-backdrop" id="profileModal">
   <div class="modal">
-    <h3>الملف الشخصي</h3>
+    <h3 id="profileModalTitle">الملف الشخصي</h3>
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
       <div class="avatar" id="profilePreview" style="width:74px;height:74px;font-size:26px;overflow:hidden">ج</div>
-      <div style="flex:1;color:var(--muted);font-size:13px;line-height:1.7">
+      <div id="profileDesc" style="flex:1;color:var(--muted);font-size:13px;line-height:1.7">
         غيّر اسم المفكرة واختر صورة شخصية من جهازك. يتم حفظها محليًا في هذا المتصفح.
       </div>
     </div>
     <div class="field">
-      <label>اسم المفكرة</label>
+      <label id="notebookNameLabel">اسم المفكرة</label>
       <input id="notebookNameInput" placeholder="مفكرتي" />
     </div>
     <div class="field">
-      <label>الصورة الشخصية</label>
+      <label id="profileImageLabel">الصورة الشخصية</label>
       <input id="profileImageInput" type="file" accept="image/*" />
     </div>
     <div class="modal-actions">
@@ -1004,21 +1129,26 @@ body::before{
 
 <div class="modal-backdrop" id="settingsModal">
   <div class="modal">
-    <h3>الإعدادات</h3>
+    <h3 id="settingsTitle">الإعدادات</h3>
     <div class="settings-list">
       <button class="settings-row" id="manageNotesFromSettings">
-        <span>🗂️</span><strong>إدارة الملاحظات</strong><span>‹</span>
+        <span>🗂️</span><strong id="manageNotesLabel">إدارة الملاحظات</strong><span>‹</span>
       </button>
       <button class="settings-row" id="languageSettingsBtn">
         <span>🌐</span><strong id="languageSettingsLabel">اللغة</strong><span id="languageCurrent">العربية</span>
       </button>
-      <button class="settings-row" id="updateSettingsBtn">
+      <button class="settings-row" id="backupSettingsBtn">
+        <span>💾</span><strong id="backupSettingsLabel"></strong><span>›</span>
+      </button>
+      <button class="settings-row" id="restoreBackupSettingsBtn">
+        <span>♻️</span><strong id="restoreBackupSettingsLabel"></strong><span>›</span>
+      </button>      <button class="settings-row" id="updateSettingsBtn">
         <span>↻</span><strong id="updateSettingsLabel">التحقق من التحديثات</strong><span>›</span>
       </button>
       <button class="settings-row" id="aboutSettingsBtn">
         <span>ⓘ</span><strong id="aboutSettingsLabel">حول مفكرتي</strong><span>›</span>
       </button>      <button class="settings-row" id="settingsPlaceholder">
-        <span>⚙️</span><strong>إعدادات إضافية</strong><span>لاحقًا</span>
+        <span>⚙️</span><strong id="advancedSettingsLabel">إعدادات إضافية</strong><span id="comingSoonLabel">لاحقًا</span>
       </button>
     </div>
     <div class="modal-actions">
@@ -1029,8 +1159,8 @@ body::before{
 
 <div class="modal-backdrop" id="themeModal">
   <div class="modal">
-    <h3>تخصيص الواجهة</h3>
-    <div style="color:#71819a;font-size:13px">اختر ثيم الواجهة:</div>
+    <h3 id="themeTitle">تخصيص الواجهة</h3>
+    <div id="themeDesc" style="color:#71819a;font-size:13px">اختر ثيم الواجهة:</div>
     <div class="theme-grid" id="themeGrid">
       <button class="theme-choice" data-theme="auto"><span class="theme-dot" style="background:conic-gradient(#5fe6ff,#765fff,#ff6bd6,#5fe6ff)"></span>تلقائي</button>
       <button class="theme-choice" data-theme="black"><span class="theme-dot" style="background:#202838"></span>أسود</button>
@@ -1051,13 +1181,13 @@ body::before{
 
 <div class="modal-backdrop" id="manageModal">
   <div class="modal">
-    <h3>إدارة الملاحظات</h3>
+    <h3 id="manageColumnsTitle">إدارة الملاحظات</h3>
     <div class="manage-grid">
-      <div class="field"><label>اسم العمود الأول</label><input id="colName1" /></div>
-      <div class="field"><label>اسم العمود الثاني</label><input id="colName2" /></div>
-      <div class="field"><label>اسم العمود الثالث</label><input id="colName3" /></div>
+      <div class="field"><label id="colLabel1">اسم العمود الأول</label><input id="colName1" /></div>
+      <div class="field"><label id="colLabel2">اسم العمود الثاني</label><input id="colName2" /></div>
+      <div class="field"><label id="colLabel3">اسم العمود الثالث</label><input id="colName3" /></div>
     </div>
-    <div class="drag-tip">يمكنك تغيير أسماء الأعمدة كما تريد من هنا.</div>
+    <div class="drag-tip" id="manageColumnsTip">يمكنك تغيير أسماء الأعمدة كما تريد من هنا.</div>
     <div class="modal-actions">
       <button class="primary-btn" id="saveColumns">حفظ الأسماء</button>
       <button class="secondary" id="cancelManage">إلغاء</button>
@@ -1067,6 +1197,7 @@ body::before{
 
 <div class="toast" id="toast"></div>
 
+<div id="floatingOrb"><div id="orbDragHandle" title="اسحب للتحريك">•••</div><button type="button" id="orbRestore" title="استعادة مفكرتي">📝</button><button type="button" id="orbQuickCapture" title="التقاط سريع">＋</button></div>
 <script>
   const boardEl = document.getElementById('board');
   const shell = document.getElementById('shell');
@@ -1074,6 +1205,8 @@ body::before{
 
   const defaultState = {
     theme:'blue',
+    todayThought:'',
+    sortMode:'manual',
     columns: [
       { id:'work', label:'عمل ومشاريع', icon:'💼', className:'work' },
       { id:'study', label:'دراسة', icon:'🎓', className:'study' },
@@ -1115,6 +1248,8 @@ body::before{
   if(typeof state.profileImage !== 'string') state.profileImage = '';
 
   if(!state.viewLayout) state.viewLayout = 'columns';
+  if(typeof state.todayThought!=='string')state.todayThought='';
+  if(!['manual','smart'].includes(state.sortMode))state.sortMode='manual';
   if(!state.viewSettings) state.viewSettings = {};
   if(!state.viewSettings.cardSize) state.viewSettings.cardSize = 'medium';
   if(!state.viewSettings.spacing) state.viewSettings.spacing = 'normal';
@@ -1122,13 +1257,6 @@ body::before{
   if(typeof state.viewSettings.showRating !== 'boolean') state.viewSettings.showRating = true;
   if(typeof state.viewSettings.showChips !== 'boolean') state.viewSettings.showChips = true;
   if(typeof state.viewSettings.showIcons !== 'boolean') state.viewSettings.showIcons = true;
-
-  // Recovery for the previous preview: if drag corruption saved an empty notes state,
-  // restore the default notes without touching theme/profile/custom column names.
-  const savedNoteCount = state.columns.reduce((sum,col)=>sum + ((state.notes && state.notes[col.id]) ? state.notes[col.id].length : 0),0);
-  if(savedNoteCount === 0){
-    state.notes = structuredClone(defaultState.notes);
-  }
 
   function saveState(){
     localStorage.setItem('jamal-notes-prototype-v2', JSON.stringify(state));
@@ -1149,9 +1277,103 @@ body::before{
     return str.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
   }
 
+  function allNoteLocations(){
+    return state.columns.flatMap(col=>(state.notes[col.id]||[]).map((note,index)=>({col,note,index})));
+  }
+  function normalizeSearchText(value=''){
+    return String(value).toLocaleLowerCase()
+      .normalize('NFD').replace(/[\u064B-\u065F\u0670\u0640\u0300-\u036f]/g,'')
+      .replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه')
+      .replace(/[ًٌٍَُِّْـ]/g,'').replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+  }
+  function withinOneEdit(a,b){
+    if(a===b)return true;
+    if(Math.abs(a.length-b.length)>1)return false;
+    let i=0,j=0,diff=0;
+    while(i<a.length&&j<b.length){
+      if(a[i]===b[j]){i++;j++;continue;}
+      if(++diff>1)return false;
+      if(a.length>b.length)i++;else if(b.length>a.length)j++;else{i++;j++;}
+    }
+    return diff+(i<a.length||j<b.length?1:0)<=1;
+  }
+  function fuzzySearchMatch(query,haystack){
+    const q=normalizeSearchText(query),h=normalizeSearchText(haystack);
+    if(!q)return true;
+    if(h.includes(q))return true;
+    const tokens=h.split(/\s+/).filter(Boolean),terms=q.split(/\s+/).filter(Boolean);
+    return terms.every(term=>tokens.some(token=>term.length>=4&&withinOneEdit(term,token)));
+  }
+  function noteDateValue(note){
+    const raw=String(note?.date||'').trim();
+    if(/^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(raw)){
+      const [y,m,d]=raw.split(/[-/]/).map(Number);return new Date(y,m-1,d);
+    }
+    const d=new Date(raw);return Number.isNaN(d.getTime())?null:d;
+  }
+  function focusReason(note,now=new Date()){
+    const due=note?.reminderAt&&!note?.reminderFired?new Date(note.reminderAt):null;
+    if(due&&!Number.isNaN(due.getTime())&&due<now)return {score:120,key:'reasonOverdue'};
+    if(due&&due.toDateString()===now.toDateString())return {score:105,key:'reasonToday'};
+    if(note?.priority==='strong')return {score:80,key:'reasonPriority'};
+    const last=note?.lastOpenedAt?new Date(note.lastOpenedAt):noteDateValue(note);
+    if(last&&now-last>30*86400000)return {score:50,key:'reasonReview'};
+    if(noteDateValue(note)?.toDateString()===now.toDateString())return {score:35,key:'reasonRecent'};
+    return {score:10,key:'reasonSaved'};
+  }
+  function smartSortedNotes(notes){
+    return notes.map((note,index)=>({note,index,rank:focusReason(note)}))
+      .sort((a,b)=>b.rank.score-a.rank.score||b.index-a.index)
+      .map(x=>x.note);
+  }
+  function renderFeatureNote(item,reasonKey=''){
+    const {note,col}=item;
+    return `<article class="focus-card" data-open-note="${escapeHtml(note.id)}"><span class="focus-reason">${escapeHtml((window.__t||((k)=>k))(reasonKey||focusReason(note).key))}</span><strong>${escapeHtml(note.emoji||'📝')} ${escapeHtml(note.title||'')}</strong><p>${escapeHtml(note.text||'')}</p><p>${escapeHtml(col.label)}</p></article>`;
+  }
+  function renderTodayView(){
+    const now=new Date(),all=allNoteLocations();
+    const focus=all.map(item=>({...item,rank:focusReason(item.note,now)})).sort((a,b)=>b.rank.score-a.rank.score||b.index-a.index).slice(0,3);
+    const steps=all.filter(({note})=>note.nextStep?.text&&!note.nextStep.done);
+    const reminders=all.filter(({note})=>{
+      if(!note.reminderAt||note.reminderFired)return false;const d=new Date(note.reminderAt);return !Number.isNaN(d.getTime())&&d<=new Date(now.getTime()+7*86400000);
+    }).sort((a,b)=>new Date(a.note.reminderAt)-new Date(b.note.reminderAt));
+    return `<section class="feature-view today-view"><header class="feature-heading"><div><h2>${escapeHtml((window.__t||((k)=>k))('today'))}</h2><p class="feature-subtitle">${escapeHtml(now.toLocaleDateString())}</p></div><button class="primary-btn" data-today-capture>${escapeHtml((window.__t||((k)=>k))('quickCapture'))}</button></header>
+      <section class="today-thought"><label for="todayThought">${escapeHtml((window.__t||((k)=>k))('thoughtPrompt'))}</label><textarea id="todayThought" placeholder="${escapeHtml((window.__t||((k)=>k))('thoughtPlaceholder'))}">${escapeHtml(state.todayThought||'')}</textarea></section>
+      <section class="feature-panel"><h3>${escapeHtml((window.__t||((k)=>k))('focusThree'))} <span>${escapeHtml((window.__t||((k)=>k))('focusReasonHint'))}</span></h3><div class="focus-grid">${focus.length?focus.map(x=>renderFeatureNote(x,x.rank.key)).join(''):`<p>${escapeHtml((window.__t||((k)=>k))('noNotesYet'))}</p>`}</div></section>
+      <div class="dashboard-grid"><section class="feature-panel"><h3>${escapeHtml((window.__t||((k)=>k))('nextSteps'))}</h3>${steps.length?steps.map(({note,col})=>`<label class="task-row" data-open-note="${escapeHtml(note.id)}"><input type="checkbox" data-step-toggle="${escapeHtml(note.id)}" /><span><strong>${escapeHtml(note.nextStep.text)}</strong><br>${escapeHtml(note.title)} · ${escapeHtml(col.label)}</span></label>`).join(''):`<p>${escapeHtml((window.__t||((k)=>k))('noNextSteps'))}</p>`}</section>
+      <section class="feature-panel"><h3>${escapeHtml((window.__t||((k)=>k))('upcomingReminders'))}</h3>${reminders.length?reminders.map(({note})=>`<button class="reminder-row" data-open-note="${escapeHtml(note.id)}"><span>⏰</span><span>${escapeHtml(note.title)}</span><time>${escapeHtml(new Date(note.reminderAt).toLocaleString())}</time></button>`).join(''):`<p>${escapeHtml((window.__t||((k)=>k))('noReminders'))}</p>`}</section></div>
+    </section>`;
+  }
+  function renderTimelineView(){
+    const groups=new Map();
+    allNoteLocations().forEach(item=>{
+      const date=noteDateValue(item.note);if(!date)return;
+      const key=`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
+      if(!groups.has(key))groups.set(key,[]);groups.get(key).push({...item,date});
+    });
+    return `<section class="feature-view timeline-view"><header class="feature-heading"><div><h2>${escapeHtml((window.__t||((k)=>k))('timeline'))}</h2><p class="feature-subtitle">${escapeHtml((window.__t||((k)=>k))('timelineDesc'))}</p></div></header>${[...groups.entries()].sort((a,b)=>b[0].localeCompare(a[0])).map(([key,items])=>`<section class="timeline-month"><h3>${escapeHtml(new Date(`${key}-01T12:00:00`).toLocaleDateString(undefined,{month:'long',year:'numeric'}))}</h3><div class="timeline-list">${items.sort((a,b)=>b.date-a.date).map(({note,col,date})=>`<article class="timeline-card" data-open-note="${escapeHtml(note.id)}"><small>${escapeHtml(date.toLocaleDateString())} · ${escapeHtml(col.label)}</small><strong>${escapeHtml(note.emoji||'📝')} ${escapeHtml(note.title||'')}</strong><p>${escapeHtml(note.text||'')}</p></article>`).join('')}</div></section>`).join('')}</section>`;
+  }
+  function wireFeatureViews(){
+    const thought=document.getElementById('todayThought');
+    if(thought)thought.oninput=()=>{state.todayThought=thought.value;clearTimeout(window.__todayThoughtSaveTimer);window.__todayThoughtSaveTimer=setTimeout(saveState,350)};
+    document.querySelectorAll('[data-open-note]').forEach(el=>el.onclick=e=>{if(e.target.closest('input,button'))return;window.__openNoteById?.(el.dataset.openNote)});
+    document.querySelectorAll('[data-today-capture]').forEach(el=>el.onclick=()=>window.__openQuickCapture?.());
+    document.querySelectorAll('[data-step-toggle]').forEach(el=>el.onchange=()=>{
+      const loc=findNoteLocation(el.dataset.stepToggle);if(!loc?.note.nextStep)return;
+      loc.note.nextStep.done=el.checked;saveState();renderBoard();
+    });
+  }
+
   function renderBoard(){
+    if(state.viewLayout==='today'){
+      boardEl.innerHTML=renderTodayView();wireFeatureViews();applySearch();return;
+    }
+    if(state.viewLayout==='timeline'){
+      boardEl.innerHTML=renderTimelineView();wireFeatureViews();applySearch();return;
+    }
     boardEl.innerHTML = state.columns.map(col=>{
-      const notes = state.notes[col.id] || [];
+      const source=state.notes[col.id]||[];
+      const notes=state.sortMode==='smart'?smartSortedNotes(source):source;
       return `
         <section class="column ${col.className}" data-column="${col.id}" data-drop-column="${col.id}">
           <div class="col-head">
@@ -1170,21 +1392,88 @@ body::before{
     renderColumnSelect();
     wireMiniAddButtons();
     wireAttachmentOpeners();
+    hydrateAttachmentPreviews();
+    wireCardActions();
     wireDragAndDrop();
     applySearch();
   }
 
+  function attachmentIcon(a){
+    const n=String(a?.displayName||a?.path||'').toLowerCase();
+    if(/\.(png|jpe?g|gif|webp|bmp|svg|heic|avif)$/.test(n))return '🖼️';
+    if(/\.pdf$/.test(n))return '📕';
+    if(/\.(docx?|odt|rtf|txt|md)$/.test(n))return '📄';
+    if(/\.(xlsx?|csv|ods)$/.test(n))return '📊';
+    if(/\.(zip|rar|7z|tar|gz)$/.test(n))return '🗜️';
+    return '📎';
+  }
+
+  function renderAttachment(a){
+    const id=escapeHtml(a?.id||''),name=escapeHtml(a?.displayName||'attachment');
+    if(a?.kind==='image')return `<div class="note-attachment image-preview" data-attachment-id="${id}" title="${name}"><img data-attachment-preview="${escapeHtml(a?.path||'')}" alt="${name}"></div>`;
+    return `<div class="note-attachment" data-attachment-id="${id}" title="${name}">${attachmentIcon(a)}<span>${name}</span></div>`;
+  }
+  const attachmentPreviewCache=new Map();
+  const attachmentPreviewRequests=new Map();
+  async function hydrateAttachmentPreviews(){
+    const images=[...document.querySelectorAll('img[data-attachment-preview]')];
+    await Promise.all(images.map(async img=>{
+      if(img.dataset.previewLoaded==='1'&&img.complete&&img.naturalWidth>0)return;
+      const path=img.dataset.attachmentPreview;
+      if(!path||typeof window.__desktopAttachmentPreview!=='function')return;
+      try{
+        let dataUrl=attachmentPreviewCache.get(path);
+        if(!dataUrl){
+          let request=attachmentPreviewRequests.get(path);
+          if(!request){
+            request=window.__desktopAttachmentPreview(path)
+              .then(result=>result?.data_url||null)
+              .finally(()=>attachmentPreviewRequests.delete(path));
+            attachmentPreviewRequests.set(path,request);
+          }
+          dataUrl=await request;
+          if(dataUrl)attachmentPreviewCache.set(path,dataUrl);
+        }
+        if(!dataUrl||!img.isConnected)return;
+        if(img.getAttribute('src')!==dataUrl)img.setAttribute('src',dataUrl);
+        if(typeof img.decode==='function')await img.decode();
+        else if(!img.complete)await new Promise((resolve,reject)=>{
+          img.addEventListener('load',resolve,{once:true});
+          img.addEventListener('error',()=>reject(new Error('image decode failed')),{once:true});
+        });
+        if(img.naturalWidth>0)img.dataset.previewLoaded='1';
+        else delete img.dataset.previewLoaded;
+      }catch(error){
+        delete img.dataset.previewLoaded;
+        console.warn('attachment-preview-hydration',error);
+      }
+    }));
+  }
+  window.__hydrateAttachmentPreviews=hydrateAttachmentPreviews;
+
   function renderNote(note){
+    const density=String(note.text||'').length>320?'long':String(note.text||'').length<100?'short':'medium';
+    const linked=(note.links||[]).map(getNoteById).filter(n=>n&&n.id!==note.id);
+    const smart=state.sortMode==='smart'?focusReason(note):null;
     return `
-      <article class="note" data-note-id="${note.id}">
+      <article class="note" data-note-id="${note.id}" data-density="${density}">
         <div class="note-top">
-          <span>${note.emoji || '📝'}</span>
+          <span class="note-emoji">${note.emoji || '📝'}</span>
           <div class="note-title">${escapeHtml(note.title)}</div>
-          <span class="more">⋯</span>
+          <div class="note-actions">
+            <button type="button" class="note-copy" title="${escapeHtml((window.__t||((k)=>k))('copy'))}" aria-label="${escapeHtml((window.__t||((k)=>k))('copy'))}">&#x29C9;</button>
+            <button type="button" class="note-delete" title="${escapeHtml((window.__t||((k)=>k))('delete'))}" aria-label="${escapeHtml((window.__t||((k)=>k))('delete'))}">&#128465;</button>
+          </div>
         </div>
+        <div class="note-delete-confirm" hidden><span class="note-delete-confirm-text"></span><button type="button" class="note-delete-confirm-action"></button><button type="button" class="note-delete-cancel"></button></div>
         <p>${escapeHtml(note.text)}</p>
+        ${note.nextStep?.text?`<label class="note-next-step ${note.nextStep.done?'done':''}"><input class="note-next-step-toggle" type="checkbox" data-next-step="${escapeHtml(note.id)}" ${note.nextStep.done?'checked':''}><span class="note-next-step-text">${escapeHtml(note.nextStep.text)}</span></label>`:`<button type="button" class="note-next-step-add" data-add-next-step="${escapeHtml(note.id)}">＋ ${escapeHtml((window.__t||((k)=>k))('addNextStep'))}</button>`}
+        ${linked.length?`<div class="note-links">${linked.map(target=>`<button type="button" class="note-link-chip" data-open-note-link="${escapeHtml(target.id)}">↗ ${escapeHtml(target.title)}</button>`).join('')}</div>`:''}
+        ${smart?`<span class="smart-sort-note">✧ ${escapeHtml((window.__t||((k)=>k))(smart.key))}</span>`:''}
         ${note.chips && note.chips.length ? `<div class="chips">${note.chips.map(c=>`<span class="chip">${escapeHtml(c)}</span>`).join('')}</div>` : ''}
-        ${note.attachments && note.attachments.length ? `<div class="note-attachments">${note.attachments.map(a=>`<div class="note-attachment" data-attachment-id="${escapeHtml(a.id||'')}" title="${escapeHtml(a.displayName||'')}">&#x1F4CE;<span>${escapeHtml(a.displayName||'attachment')}</span></div>`).join('')}</div>` : ''}
+        ${note.reminderAt ? `<div class="note-reminder" title="${escapeHtml(note.reminderAt)}" style="margin:8px 0 2px;font-size:11px;font-weight:800;opacity:.85">&#x23F0; ${escapeHtml(new Date(note.reminderAt).toLocaleString())}</div>` : ''}
+        ${note.attachments && note.attachments.length ? `<div class="note-attachments">${note.attachments.map(a=>renderAttachment(a)).join('')}</div>` : ''}
+        <button type="button" class="priority-badge priority-${note.priority||'weak'}" data-priority="${note.priority||'weak'}">${escapeHtml((window.__t||((k)=>k))(note.priority||'weak'))}</button>
         <div class="note-foot">
           <span class="date">${escapeHtml(note.date)}</span>
           <div class="stars">${starMarkup(Number(note.rating||0))}</div>
@@ -1192,6 +1481,8 @@ body::before{
       </article>
     `;
   }
+
+  window.renderBoard=renderBoard;
 
   function renderColumnSelect(){
     const select = document.getElementById('noteColumn');
@@ -1201,13 +1492,127 @@ body::before{
   function wireMiniAddButtons(){
     document.querySelectorAll('[data-add]').forEach(btn=>{
       btn.onclick = ()=> openNoteModal(btn.dataset.add);
-    }
-
-  function wireAttachmentOpeners(){
-    document.querySelectorAll('.note-attachment').forEach(el=>{el.style.cursor='pointer';el.onclick=e=>{e.stopPropagation();const noteEl=el.closest('.note'),note=getNoteById(noteEl?.dataset.noteId),aid=el.dataset.attachmentId;const a=(note?.attachments||[]).find(x=>x.id===aid);if(a?.path)window.__desktopOpenAttachment?.(a.path)}});
-  });
+    });
   }
 
+  function wireAttachmentOpeners(){
+    document.querySelectorAll('.note-attachment').forEach(el=>{
+      el.style.cursor='pointer';
+      el.onclick=e=>{
+        e.stopPropagation();
+        const noteEl=el.closest('.note'),note=getNoteById(noteEl?.dataset.noteId),aid=el.dataset.attachmentId;
+        const a=(note?.attachments||[]).find(x=>x.id===aid);
+        if(a?.path) window.__desktopOpenAttachment?.(a.path);
+      };
+    });
+  }
+
+  function findNoteLocation(noteId){
+    for(const col of state.columns){
+      const arr=state.notes[col.id]||[],index=arr.findIndex(n=>n.id===noteId);
+      if(index>=0)return {colId:col.id,arr,index,note:arr[index]};
+    }
+    return null;
+  }
+
+  function wireCardActions(){
+    document.querySelectorAll('.note').forEach(el=>{
+      const noteId=el.dataset.noteId;
+      el.ondblclick=e=>{
+        if(e.target.closest('button,.star,.note-attachment,input,textarea,select,a'))return;
+        const loc=findNoteLocation(noteId);
+        if(loc)openNoteModal(loc.colId,loc.note);
+      };
+      const copy=el.querySelector('.note-copy');
+      if(copy)copy.onclick=async e=>{
+        e.stopPropagation();
+        if(copy.disabled)return;
+        const loc=findNoteLocation(noteId);if(!loc)return;
+        copy.disabled=true;
+        copy.setAttribute('aria-busy','true');
+        const cloned=[];
+        try{
+          for(const a of (loc.note.attachments||[])){
+            if(!a?.path)throw new Error('attachment path is missing');
+            const z=await window.__desktopCloneAttachment?.(a.path);
+            if(!z?.path)throw new Error('attachment clone failed');
+            cloned.push({id:z.id,kind:z.kind,path:z.path,displayName:z.display_name||z.displayName||a.displayName||''});
+          }
+          const source=findNoteLocation(noteId);if(!source)throw new Error('source note disappeared');
+          const n={...structuredClone(source.note),id:id(),links:(source.note.links||[]).filter(linkId=>linkId!==source.note.id),nextStep:{text:source.note.nextStep?.text||'',done:false},attachments:cloned,reminderAt:"",reminderFired:false};
+          source.arr.splice(source.index+1,0,n);
+          const cardHost=document.createElement('div');
+          cardHost.innerHTML=renderNote(n);
+          const newCard=cardHost.firstElementChild;
+          el.after(newCard);
+          wireCardActions();
+          wireAttachmentOpeners();
+          hydrateAttachmentPreviews();
+          wireDragAndDrop();
+          updateCounts();
+          applySearch();
+          saveState();
+          showToast((window.__t||((k)=>k))('noteCopied'));
+        }catch(error){
+          console.error('note-copy',error);
+          for(const a of cloned)window.__desktopDiscardAttachment?.(a.path);
+          showToast((window.__t||((k)=>k))('copyFailed'));
+        }finally{
+          if(copy.isConnected){copy.disabled=false;copy.removeAttribute('aria-busy');}
+        }
+      };
+      const del=el.querySelector('.note-delete');
+      const deleteConfirm=el.querySelector('.note-delete-confirm');
+      const deleteText=el.querySelector('.note-delete-confirm-text');
+      const deleteAction=el.querySelector('.note-delete-confirm-action');
+      const deleteCancel=el.querySelector('.note-delete-cancel');
+      if(deleteText)deleteText.textContent=(window.__t||((k)=>k))('confirmDeleteNote');
+      if(deleteAction)deleteAction.textContent=(window.__t||((k)=>k))('delete');
+      if(deleteCancel)deleteCancel.textContent=(window.__t||((k)=>k))('cancel');
+      if(del)del.onclick=e=>{
+        e.stopPropagation();
+        if(deleteConfirm)deleteConfirm.hidden=false;
+        deleteAction?.focus();
+      };
+      if(deleteAction)deleteAction.onclick=e=>{
+        e.stopPropagation();
+        const loc=findNoteLocation(noteId);if(!loc)return;
+        loc.arr.splice(loc.index,1);
+        removeNoteReferences(noteId);
+        el.remove();
+        updateCounts();
+        applySearch();
+        saveState();
+      };
+      if(deleteCancel)deleteCancel.onclick=e=>{
+        e.stopPropagation();
+        if(deleteConfirm)deleteConfirm.hidden=true;
+        del?.focus();
+      };
+      const pr=el.querySelector('.priority-badge');
+      if(pr)pr.onclick=e=>{
+        e.stopPropagation();
+        const loc=findNoteLocation(noteId);if(!loc)return;
+        const cur=loc.note.priority||'weak';
+        loc.note.priority=cur==='weak'?'medium':cur==='medium'?'strong':'weak';
+        saveState();
+        const next=loc.note.priority||'weak';
+        pr.dataset.priority=next;
+        pr.className='priority-badge priority-'+next;
+        pr.textContent=(window.__t||((k)=>k))(next);
+      };
+      el.querySelectorAll('[data-open-note-link]').forEach(link=>link.onclick=e=>{e.stopPropagation();window.__openNoteById?.(link.dataset.openNoteLink)});
+      const stepToggle=el.querySelector('[data-next-step]');
+      if(stepToggle)stepToggle.onchange=e=>{
+        e.stopPropagation();const loc=findNoteLocation(noteId);if(!loc?.note.nextStep)return;
+        loc.note.nextStep.done=stepToggle.checked;
+        stepToggle.closest('.note-next-step')?.classList.toggle('done',stepToggle.checked);
+        saveState();
+      };
+      const addStep=el.querySelector('[data-add-next-step]');
+      if(addStep)addStep.onclick=e=>{e.stopPropagation();const loc=findNoteLocation(noteId);if(loc)openNoteModal(loc.colId,loc.note)};
+    });
+  }
   function getNoteById(id){
     for(const col of state.columns){
       const note = (state.notes[col.id]||[]).find(n=>n.id===id);
@@ -1233,6 +1638,7 @@ body::before{
     let pressed = null;
     let drag = null;
     const threshold = 5;
+    const reflowAnimations = new WeakMap();
 
     function isInteractiveTarget(target){
       return !!target.closest('.star, .more, button, input, textarea, select, a');
@@ -1249,14 +1655,20 @@ body::before{
     function animateReflow(before){
       before.forEach((oldRect,el)=>{
         if(!el.isConnected || el.classList.contains('dragging-card')) return;
-        const now = el.getBoundingClientRect();
-        const dx = oldRect.left-now.left;
-        const dy = oldRect.top-now.top;
+        const prev=reflowAnimations.get(el);
+        if(prev){prev.cancel();reflowAnimations.delete(el);}
+        const now=el.getBoundingClientRect();
+        const dx=oldRect.left-now.left;
+        const dy=oldRect.top-now.top;
         if(Math.abs(dx)>.5 || Math.abs(dy)>.5){
-          el.animate(
+          const anim=el.animate(
             [{transform:`translate(${dx}px, ${dy}px)`},{transform:'translate(0,0)'}],
             {duration:190,easing:'cubic-bezier(.2,.78,.2,1)'}
           );
+          reflowAnimations.set(el,anim);
+          const done=()=>{if(reflowAnimations.get(el)===anim)reflowAnimations.delete(el);};
+          anim.onfinish=done;
+          anim.oncancel=done;
         }
       });
     }
@@ -1287,9 +1699,15 @@ body::before{
 
       col.classList.add('drop-active');
       const zone = col.querySelector('.cards');
-      const before = allCardRects();
       const target = insertionPoint(zone,y);
 
+      const alreadyThere = target
+        ? drag.placeholder.parentElement===zone && drag.placeholder.nextElementSibling===target
+        : drag.placeholder.parentElement===zone && drag.placeholder===zone.lastElementChild;
+
+      if(alreadyThere) return;
+
+      const before = allCardRects();
       if(target) zone.insertBefore(drag.placeholder,target);
       else zone.appendChild(drag.placeholder);
 
@@ -1330,6 +1748,7 @@ body::before{
       note.style.top = rect.top+'px';
 
       document.body.appendChild(note);
+      document.body.classList.add('card-drag-active');
       document.body.style.userSelect='none';
       document.body.style.cursor='grabbing';
 
@@ -1339,17 +1758,9 @@ body::before{
 
     function moveFloating(x,y){
       if(!drag) return;
-      const vx = x-drag.lastX;
-      drag.lastX=x;
-      drag.phase += .58;
-
-      const bob = Math.sin(drag.phase)*1.7;
-      const wave = Math.sin(drag.phase*.72)*.42;
-      const tilt = Math.max(-1.0,Math.min(1.0,vx*.035));
-
       drag.note.style.left=(x-drag.offsetX)+'px';
       drag.note.style.top=(y-drag.offsetY)+'px';
-      drag.note.style.transform=`translateY(${(-3+bob).toFixed(2)}px) scale(1.015) rotate(${(tilt+wave).toFixed(2)}deg)`;
+      drag.note.style.transform='translateY(-3px) scale(1.012)';
     }
 
     function restorePlaceholderToOrigin(active){
@@ -1406,6 +1817,7 @@ body::before{
       clearHighlight();
       document.body.style.userSelect='';
       document.body.style.cursor='';
+      document.body.classList.remove('card-drag-active');
 
       // Determine the final destination from the placeholder before animating.
       const targetZone = active.placeholder.parentElement;
@@ -1473,6 +1885,7 @@ body::before{
 
     document.querySelectorAll('.note').forEach(note=>{
       note.onpointerdown=(e)=>{
+        if(state.sortMode==='smart')return;
         if(e.button!==0 || isInteractiveTarget(e.target)) return;
         e.preventDefault();
         pressed={note,startX:e.clientX,startY:e.clientY};
@@ -1564,6 +1977,9 @@ body::before{
 
   function applyViewSettings(){
     document.body.dataset.viewLayout = state.viewLayout || 'columns';
+    document.body.dataset.sortMode=state.sortMode||'manual';
+    document.getElementById('smartSortBtn')?.classList.toggle('active',state.sortMode==='smart');
+    const smartBtn=document.getElementById('smartSortBtn');if(smartBtn)smartBtn.title=(window.__t||((k)=>k))(state.sortMode==='smart'?'smartSortOn':'smartSortOff');
     document.body.dataset.cardSize = state.viewSettings.cardSize || 'medium';
     document.body.dataset.viewSpacing = state.viewSettings.spacing || 'normal';
     document.body.dataset.showDate = String(state.viewSettings.showDate !== false);
@@ -1605,14 +2021,70 @@ body::before{
   });
 
   // search
+  const activeFilters={priority:'all',attachment:false,reminder:false,column:'all',tag:'all',dateFrom:'',dateTo:''};
   const searchInput = document.getElementById('searchInput');
-  searchInput.addEventListener('input', applySearch);
+    searchInput.addEventListener('input', applySearch);
+  document.getElementById('filterBtn').onclick=()=>{
+    let m=document.getElementById('filterModal');
+    if(!m){
+      m=document.createElement('div');m.id='filterModal';m.className='modal-backdrop';
+      m.innerHTML='<div class="modal" style="max-width:460px"><h3 id="ft"></h3><div class="field"><label id="fpl"></label><select id="fp"></select></div><div class="field"><label id="fcl"></label><select id="fc"></select></div><div class="field"><label id="ftl"></label><select id="fg"></select></div><div class="field"><label id="fdl"></label><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><small id="ffl"></small><input id="ff" type="date"></div><div><small id="fol"></small><input id="fo" type="date"></div></div></div><div class="modal-actions"><button class="secondary" id="fa"></button><button class="secondary" id="fr"></button><button class="secondary" id="fx"></button><button class="secondary" id="fz"></button></div></div>';
+      document.body.appendChild(m);
+      m.querySelector('#fp').onchange=e=>{activeFilters.priority=e.target.value;applySearch()};
+      m.querySelector('#fc').onchange=e=>{activeFilters.column=e.target.value;applySearch()};
+      m.querySelector('#fg').onchange=e=>{activeFilters.tag=e.target.value;applySearch()};
+      m.querySelector('#ff').onchange=e=>{activeFilters.dateFrom=e.target.value;applySearch()};
+      m.querySelector('#fo').onchange=e=>{activeFilters.dateTo=e.target.value;applySearch()};
+      m.querySelector('#fa').onclick=()=>{activeFilters.attachment=!activeFilters.attachment;applySearch();m.querySelector('#fa').classList.toggle('active',activeFilters.attachment)};
+      m.querySelector('#fr').onclick=()=>{activeFilters.reminder=!activeFilters.reminder;applySearch();m.querySelector('#fr').classList.toggle('active',activeFilters.reminder)};
+      m.querySelector('#fz').onclick=()=>m.classList.remove('open');
+    }
+    const t=window.__t||((x)=>x);
+    m.querySelector('#ft').textContent=t('filters');
+    m.querySelector('#fpl').textContent=t('priority');
+    m.querySelector('#fcl').textContent=t('section');
+    m.querySelector('#ftl').textContent=t('tags');
+    m.querySelector('#fdl').textContent=t('date');
+    m.querySelector('#ffl').textContent=t('from');
+    m.querySelector('#fol').textContent=t('to');
+    m.querySelector('#fp').innerHTML=['all','strong','medium','weak'].map(x=>`<option value="${x}">${t(x)}</option>`).join('');
+    m.querySelector('#fc').innerHTML='<option value="all">'+t('all')+'</option>'+state.columns.map(c=>`<option value="${c.id}">${escapeHtml(c.label)}</option>`).join('');
+    const tags=[...new Set(Object.values(state.notes).flat().flatMap(n=>n.chips||[]))].sort((a,b)=>String(a).localeCompare(String(b)));
+    m.querySelector('#fg').innerHTML='<option value="all">'+t('all')+'</option>'+tags.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('');
+    m.querySelector('#fa').textContent='\uD83D\uDCCE '+t('hasAttachment');
+    m.querySelector('#fr').textContent='\u23F0 '+t('hasReminder');
+    m.querySelector('#fx').textContent=t('clear');
+    m.querySelector('#fz').textContent=t('close');
+    m.querySelector('#fp').value=activeFilters.priority;
+    m.querySelector('#fc').value=activeFilters.column;
+    m.querySelector('#fg').value=activeFilters.tag;
+    m.querySelector('#ff').value=activeFilters.dateFrom;
+    m.querySelector('#fo').value=activeFilters.dateTo;
+    m.querySelector('#fa').classList.toggle('active',activeFilters.attachment);
+    m.querySelector('#fr').classList.toggle('active',activeFilters.reminder);    m.querySelector('#fx').onclick=()=>{Object.assign(activeFilters,{priority:'all',column:'all',tag:'all',dateFrom:'',dateTo:'',attachment:false,reminder:false});applySearch();m.classList.remove('open')};
+    m.classList.add('open');
+  };
 
   function applySearch(){
-    const q = searchInput.value.trim().toLowerCase();
-    document.querySelectorAll('.note').forEach(note=>{
-      const text = note.innerText.toLowerCase();
-      note.style.display = text.includes(q) ? '' : 'none';
+    const q=searchInput.value.trim();
+    document.querySelectorAll('.note').forEach(el=>{
+      const loc=findNoteLocation(el.dataset.noteId),n=loc?.note;
+      if(!n)return;
+      const linkedTitles=(n.links||[]).map(getNoteById).filter(Boolean).map(x=>x.title);
+      const hay=[n.title,n.text,n.nextStep?.text||'',...linkedTitles,...(n.chips||[]),...(n.attachments||[]).map(a=>a.displayName||'')].join(' ');
+      const okQ=fuzzySearchMatch(q,hay);
+      const okP=activeFilters.priority==='all'||(n.priority||'weak')===activeFilters.priority;
+      const okA=!activeFilters.attachment||(n.attachments||[]).length>0;
+      const okR=!activeFilters.reminder||!!n.reminderAt;
+      const okC=activeFilters.column==='all'||loc.colId===activeFilters.column;
+      const okT=activeFilters.tag==='all'||(n.chips||[]).some(x=>String(x).toLowerCase()===String(activeFilters.tag).toLowerCase());
+      const nd=String(n.date||'').replace(/\//g,'-');
+      const okD=(!activeFilters.dateFrom||nd>=activeFilters.dateFrom)&&(!activeFilters.dateTo||nd<=activeFilters.dateTo);
+      el.style.display=(okQ&&okP&&okA&&okR&&okC&&okT&&okD)?'':'none';
+    });
+    document.querySelectorAll('.feature-view [data-open-note]').forEach(el=>{
+      const note=getNoteById(el.dataset.openNote);
+      el.style.display=note&&fuzzySearchMatch(q,[note.title,note.text,note.nextStep?.text||'',...(note.chips||[])].join(' '))?'':'none';
     });
   }
 
@@ -1620,45 +2092,176 @@ body::before{
   const noteModal = document.getElementById('noteModal');
   const pendingAttachmentsEl=document.getElementById('pendingAttachments');
   let pendingAttachments=[];
-  function renderPendingAttachments(){if(!pendingAttachmentsEl)return;pendingAttachmentsEl.innerHTML=pendingAttachments.map((a,i)=>`<div class="attachment-pill"><span>${escapeHtml(a.displayName||'attachment')}</span><button type="button" class="attachment-remove" data-remove-attachment="${i}">&times;</button></div>`).join('');pendingAttachmentsEl.querySelectorAll('[data-remove-attachment]').forEach(b=>b.onclick=async()=>{const i=Number(b.dataset.removeAttachment),a=pendingAttachments[i];pendingAttachments.splice(i,1);renderPendingAttachments();await window.__desktopDiscardAttachment?.(a?.path)})}
-  document.getElementById('addAttachmentBtn').onclick=async()=>{const a=await window.__desktopPickAttachment?.();if(!a)return;pendingAttachments.push({id:a.id,kind:a.kind,path:a.path,displayName:a.display_name||a.displayName||''});renderPendingAttachments()};
-  function openNoteModal(columnId='personal'){
-    pendingAttachments=[];renderPendingAttachments();
-    document.getElementById('noteColumn').value = columnId;
+  let pendingLinks=[];
+  let editingContext=null;
+  function renderSelectedNoteLinks(){
+    const host=document.getElementById('selectedNoteLinks');if(!host)return;
+    host.innerHTML=pendingLinks.map(linkId=>getNoteById(linkId)).filter(Boolean).map(note=>`<span class="note-link-chip">↗ ${escapeHtml(note.title)}<button type="button" data-remove-link="${escapeHtml(note.id)}" aria-label="${escapeHtml((window.__t||((k)=>k))('removeLink'))}">×</button></span>`).join('');
+    host.querySelectorAll('[data-remove-link]').forEach(btn=>btn.onclick=()=>{pendingLinks=pendingLinks.filter(x=>x!==btn.dataset.removeLink);renderSelectedNoteLinks()});
+  }
+  function renderNoteLinkSuggestions(query='',source='search'){
+    const host=document.getElementById('noteLinkSuggestions'),needle=normalizeSearchText(query.replace(/^@/,''));
+    const results=allNoteLocations().filter(({note})=>note.id!==editingContext?.noteId&&!pendingLinks.includes(note.id))
+      .filter(({note})=>!needle||fuzzySearchMatch(needle,note.title)).slice(0,6);
+    host.innerHTML=results.map(({note,col})=>`<button type="button" data-pick-note-link="${escapeHtml(note.id)}" data-link-source="${source}">${escapeHtml(note.emoji||'📝')} ${escapeHtml(note.title)} <small>${escapeHtml(col.label)}</small></button>`).join('');
+    host.hidden=results.length===0;
+    host.querySelectorAll('[data-pick-note-link]').forEach(btn=>btn.onclick=()=>{
+      const target=getNoteById(btn.dataset.pickNoteLink);if(!target)return;
+      pendingLinks.push(target.id);renderSelectedNoteLinks();host.hidden=true;
+      if(btn.dataset.linkSource==='body'){
+        const input=document.getElementById('noteText'),cursor=input.selectionStart??input.value.length;
+        const before=input.value.slice(0,cursor),at=before.lastIndexOf('@');
+        if(at>=0){input.value=before.slice(0,at)+`@${target.title} `+input.value.slice(cursor);input.setSelectionRange(at+target.title.length+2,at+target.title.length+2)}
+        input.focus();
+      }else{document.getElementById('noteLinkSearch').value='';}
+    });
+  }
+  function removeNoteReferences(noteId){
+    allNoteLocations().forEach(({note})=>{note.links=(note.links||[]).filter(linkId=>linkId!==noteId)});
+  }
+  function renderPendingAttachments(){
+    if(!pendingAttachmentsEl)return;
+    pendingAttachmentsEl.innerHTML=pendingAttachments.map((a,i)=>`<div class="attachment-pill"><span>${escapeHtml(a.displayName||'attachment')}</span><button type="button" class="attachment-remove" data-remove-attachment="${i}">&times;</button></div>`).join('');
+    pendingAttachmentsEl.querySelectorAll('[data-remove-attachment]').forEach(b=>b.onclick=async()=>{
+      const i=Number(b.dataset.removeAttachment),a=pendingAttachments[i];
+      pendingAttachments.splice(i,1);renderPendingAttachments();
+      if(a&&!a._existing)await window.__desktopDiscardAttachment?.(a.path);
+    });
+  }
+  document.getElementById('addAttachmentBtn').onclick=async()=>{
+    const a=await window.__desktopPickAttachment?.();if(!a)return;
+    pendingAttachments.push({id:a.id,kind:a.kind,path:a.path,displayName:a.display_name||a.displayName||'',_existing:false});
+    renderPendingAttachments();
+  };
+  document.getElementById('noteText').addEventListener('input',e=>{
+    const before=e.target.value.slice(0,e.target.selectionStart||0),match=before.match(/(?:^|\s)@([^\s@]*)$/);
+    if(match)renderNoteLinkSuggestions(match[1],'body');else document.getElementById('noteLinkSuggestions').hidden=true;
+  });
+  document.getElementById('noteLinkSearch').addEventListener('input',e=>{
+    const value=e.target.value.trim();if(value.startsWith('@'))renderNoteLinkSuggestions(value,'search');else document.getElementById('noteLinkSuggestions').hidden=true;
+  });
+  function openNoteModal(columnId='personal',note=null){
+    editingContext=note?{noteId:note.id,oldColId:columnId}:null;
+    if(note){note.lastOpenedAt=new Date().toISOString();saveState()}
+    pendingAttachments=(note?.attachments||[]).map(a=>({...a,_existing:true}));
+    pendingLinks=[...(note?.links||[])].filter(linkId=>getNoteById(linkId)&&linkId!==note?.id);
+    renderPendingAttachments();
+    renderSelectedNoteLinks();
+    document.getElementById('noteColumn').value=columnId;
+    document.getElementById('noteTitle').value=note?.title||'';
+    document.getElementById('noteText').value=note?.text||'';
+    document.getElementById('noteNextStep').value=note?.nextStep?.text||'';
+    document.getElementById('noteLinkSearch').value='';
+    document.getElementById('noteLinkSuggestions').hidden=true;
+    document.getElementById('noteEmoji').value=note?.emoji||'📝';
+    document.getElementById('noteRating').value=String(note?.rating||0);
+    document.getElementById('noteTags').value=(note?.chips||[]).join(', ');
+    document.getElementById('deleteNote').style.display=note?'':'none';
+    document.getElementById('noteModalTitle').textContent=(window.__t||((k)=>k))(note?'editNote':'add');
+    document.getElementById('noteReminder').value=note?.reminderAt?new Date(note.reminderAt).toLocaleString('sv-SE').slice(0,16).replace(' ','T'):'';
     noteModal.classList.add('open');
     setTimeout(()=>document.getElementById('noteTitle').focus(),50);
   }
-  function closeNoteModal(){
-    const abandoned=[...pendingAttachments];pendingAttachments=[];renderPendingAttachments();abandoned.forEach(a=>window.__desktopDiscardAttachment?.(a.path));
-    noteModal.classList.remove('open');
-    document.getElementById('noteTitle').value = '';
-    document.getElementById('noteText').value = '';
-    pendingAttachments=[];renderPendingAttachments();
+  let quickCaptureReturnToOrb=false;
+  const quickCaptureModal=document.getElementById('quickCaptureModal');
+  async function openQuickCapture(){
+    quickCaptureReturnToOrb=document.body.classList.contains('floating-orb');
+    if(quickCaptureReturnToOrb)await window.__desktopRestoreFloatingMode?.();
+    const select=document.getElementById('quickCaptureColumn');
+    select.innerHTML=state.columns.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.label)}</option>`).join('');
+    select.value=state.columns[0]?.id||'';
+    document.getElementById('quickCaptureName').value='';
+    document.getElementById('quickCaptureBody').value='';
+    quickCaptureModal.classList.add('open');
+    setTimeout(()=>document.getElementById('quickCaptureBody').focus(),40);
   }
-
+  function closeQuickCapture(){
+    quickCaptureModal.classList.remove('open');
+    const returnToOrb=quickCaptureReturnToOrb;quickCaptureReturnToOrb=false;
+    if(returnToOrb&&typeof window.__desktopEnterFloatingMode==='function')window.__desktopEnterFloatingMode().catch(console.error);
+  }
+  window.__openQuickCapture=openQuickCapture;
+  document.getElementById('quickCaptureBtn').onclick=()=>openQuickCapture();
+  document.getElementById('orbQuickCapture').onclick=e=>{e.stopPropagation();openQuickCapture()};
+  document.getElementById('quickCaptureCancel').onclick=closeQuickCapture;
+  quickCaptureModal.addEventListener('click',e=>{if(e.target===quickCaptureModal)closeQuickCapture()});
+  document.getElementById('quickCaptureSave').onclick=()=>{
+    const body=document.getElementById('quickCaptureBody').value.trim();
+    if(!body){document.getElementById('quickCaptureBody').focus();return}
+    const title=document.getElementById('quickCaptureName').value.trim()||body.split(/\r?\n/)[0].slice(0,72)||((window.__t||((k)=>k))('newIdea'));
+    const colId=document.getElementById('quickCaptureColumn').value;
+    (state.notes[colId]||(state.notes[colId]=[])).unshift({id:id(),emoji:'💡',title,text:body,date:new Date().toLocaleDateString('en-CA'),rating:0,priority:'weak',chips:[],attachments:[],links:[],nextStep:{text:'',done:false},reminderAt:'',reminderFired:false});
+    saveState();renderBoard();showToast((window.__t||((k)=>k))('ideaCaptured'));closeQuickCapture();
+  };
+  document.addEventListener('keydown',e=>{
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='n'){
+      e.preventDefault();openQuickCapture();
+    }
+  });
+  window.__openNoteById=(noteId)=>{
+    const loc=findNoteLocation(String(noteId||''));
+    if(!loc)return false;
+    renderBoard();
+    const card=document.querySelector(`.note[data-note-id="${CSS.escape(String(noteId))}"]`);
+    card?.scrollIntoView({behavior:'smooth',block:'center',inline:'center'});
+    openNoteModal(loc.colId,loc.note);
+    return true;
+  };
+  function closeNoteModal(){
+    const abandoned=pendingAttachments.filter(a=>!a._existing);
+    abandoned.forEach(a=>window.__desktopDiscardAttachment?.(a.path));
+    pendingAttachments=[];pendingLinks=[];editingContext=null;renderPendingAttachments();renderSelectedNoteLinks();
+    noteModal.classList.remove('open');
+    document.getElementById('noteTitle').value='';
+    document.getElementById('noteText').value='';
+    document.getElementById('noteEmoji').value='';
+    document.getElementById('noteRating').value='0';
+    document.getElementById('noteTags').value='';
+    document.getElementById('noteNextStep').value='';
+    document.getElementById('noteLinkSearch').value='';
+    document.getElementById('noteLinkSuggestions').hidden=true;
+    document.getElementById('deleteNote').style.display='none';
+    document.getElementById('noteReminder').value='';
+  }
   document.getElementById('addBtn').onclick = ()=> openNoteModal(state.columns[0].id);
   document.getElementById('cancelNote').onclick = closeNoteModal;
+  document.getElementById('clearReminderBtn').onclick=()=>{document.getElementById('noteReminder').value='';};
+  document.getElementById('deleteNote').onclick=()=>{if(!editingContext)return;const arr=state.notes[editingContext.oldColId]||[];const ix=arr.findIndex(n=>n.id===editingContext.noteId);if(ix<0)return;const deleted=arr.splice(ix,1)[0];if(deleted)removeNoteReferences(deleted.id);pendingAttachments=[];pendingLinks=[];editingContext=null;renderPendingAttachments();renderSelectedNoteLinks();saveState();renderBoard();noteModal.classList.remove('open');};
   noteModal.addEventListener('click', e=>{ if(e.target===noteModal) closeNoteModal(); });
 
   document.getElementById('saveNote').onclick = ()=>{
-    const title = document.getElementById('noteTitle').value.trim() || 'ملاحظة بدون عنوان';
-    const text = document.getElementById('noteText').value.trim() || 'لا يوجد محتوى بعد.';
-    const colId = document.getElementById('noteColumn').value;
-    const committedAttachments=pendingAttachments.map(a=>({...a}));pendingAttachments=[];renderPendingAttachments();
-    state.notes[colId].unshift({
-      id:id(),
-      emoji:'📝',
-      title,
-      text,
-      date:new Date().toLocaleDateString('en-CA'),
-      rating:0,
-      chips:[],
-      attachments:committedAttachments
-    });
-    saveState();
-    renderBoard();
-    closeNoteModal();
-    showToast('تمت إضافة الملاحظة ✨');
+    const title=document.getElementById('noteTitle').value.trim()||'ملاحظة جديدة';
+    const text=document.getElementById('noteText').value.trim()||'اكتب محتوى الملاحظة هنا.';
+    const colId=document.getElementById('noteColumn').value;
+    const emoji=document.getElementById('noteEmoji').value.trim()||'📝';
+    const rating=Math.max(0,Math.min(5,Number(document.getElementById('noteRating').value||0)));
+    const chips=document.getElementById('noteTags').value.split(',').map(x=>x.trim()).filter(Boolean).slice(0,20);
+    const nextStepText=document.getElementById('noteNextStep').value.trim().slice(0,240);
+    const links=[...new Set(pendingLinks)].filter(linkId=>linkId!==editingContext?.noteId&&!!getNoteById(linkId));
+    const reminderRaw=document.getElementById('noteReminder').value;
+    const reminderAt=reminderRaw?new Date(reminderRaw).toISOString():'';
+    if(reminderAt)window.__desktopEnableNotifications?.();
+    const committedAttachments=pendingAttachments.map(a=>({id:a.id,kind:a.kind,path:a.path,displayName:a.displayName||''}));
+    if(editingContext){
+      const oldArr=state.notes[editingContext.oldColId]||[];
+      const ix=oldArr.findIndex(n=>n.id===editingContext.noteId);
+      if(ix>=0){
+        const old=oldArr[ix];
+        const updated={...old,title,text,emoji,rating,chips,links,nextStep:{text:nextStepText,done:nextStepText&&nextStepText===old.nextStep?.text?!!old.nextStep?.done:false},attachments:committedAttachments,reminderAt,reminderFired:(reminderAt&&reminderAt===old.reminderAt)?!!old.reminderFired:false};
+        oldArr.splice(ix,1);
+        (state.notes[colId]||(state.notes[colId]=[])).unshift(updated);
+      }
+    }else{
+      (state.notes[colId]||(state.notes[colId]=[])).unshift({
+        id:id(),emoji,title,text,links,nextStep:{text:nextStepText,done:false},
+        date:new Date().toLocaleDateString('en-CA'),
+        rating,priority:'weak',chips,reminderAt,reminderFired:false,
+        attachments:committedAttachments
+      });
+    }
+    pendingAttachments=[];pendingLinks=[];editingContext=null;renderPendingAttachments();renderSelectedNoteLinks();
+    saveState();renderBoard();closeNoteModal();
+    showToast('تم حفظ الملاحظة');
   };
 
   // profile menu + Settings + Notes management + Theme customization
@@ -1823,13 +2426,14 @@ body::before{
       state.viewLayout = btn.dataset.layoutChoice;
       saveState();
       applyViewSettings();
+      renderBoard();
       showToast('تم تغيير شكل العرض');
     };
   });
-
-  document.getElementById('filterBtn').onclick = ()=>{
-    applyViewSettings();
-    viewCustomizeModal.classList.add('open');
+  document.getElementById('smartSortBtn').onclick=()=>{
+    state.sortMode=state.sortMode==='smart'?'manual':'smart';
+    saveState();applyViewSettings();renderBoard();
+    showToast((window.__t||((k)=>k))(state.sortMode==='smart'?'smartSortOn':'smartSortOff'));
   };
   document.getElementById('closeViewCustomize').onclick = ()=> viewCustomizeModal.classList.remove('open');
   viewCustomizeModal.addEventListener('click', e=>{

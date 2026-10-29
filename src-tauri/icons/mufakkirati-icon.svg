@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="54" y1="42" x2="452" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4FBFF"/>
+      <stop offset=".52" stop-color="#DDF3FF"/>
+      <stop offset="1" stop-color="#BDDFFF"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="142" y1="84" x2="382" y2="438" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity=".98"/>
+      <stop offset="1" stop-color="#F5FAFF" stop-opacity=".94"/>
+    </linearGradient>
+    <linearGradient id="spine" x1="112" y1="148" x2="176" y2="365" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#63DFF4"/>
+      <stop offset="1" stop-color="#4386F8"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="196" y1="0" x2="366" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67CFF6"/>
+      <stop offset="1" stop-color="#8BAEFF"/>
+    </linearGradient>
+    <linearGradient id="spark" x1="369" y1="83" x2="437" y2="158" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE49A"/>
+      <stop offset="1" stop-color="#FFB958"/>
+    </linearGradient>
+    <filter id="shadow" x="67" y="46" width="378" height="446" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="15"/>
+      <feGaussianBlur stdDeviation="18"/>
+      <feColorMatrix values="0 0 0 0 0.18 0 0 0 0 0.38 0 0 0 0 0.67 0 0 0 0.2 0"/>
+      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="509" height="509" rx="114.5" stroke="#FFFFFF" stroke-opacity=".76" stroke-width="3"/>
+  <circle cx="91" cy="113" r="8" fill="#FFFFFF" fill-opacity=".82"/>
+  <circle cx="421" cy="389" r="11" fill="#FFFFFF" fill-opacity=".62"/>
+  <circle cx="390" cy="430" r="5" fill="#78D8F2" fill-opacity=".8"/>
+  <g filter="url(#shadow)" transform="rotate(-4 256 256)">
+    <rect x="112" y="78" width="290" height="356" rx="48" fill="url(#paper)" stroke="#FFFFFF" stroke-width="8"/>
+    <path d="M160 82h34v348h-34c-26.51 0-48-21.49-48-48V130c0-26.51 21.49-48 48-48Z" fill="url(#spine)"/>
+    <path d="M194 93v330" stroke="#8ABEF8" stroke-opacity=".38" stroke-width="3"/>
+    <circle cx="160" cy="157" r="10" fill="#FFFFFF" fill-opacity=".92"/>
+    <circle cx="160" cy="235" r="10" fill="#FFFFFF" fill-opacity=".92"/>
+    <circle cx="160" cy="313" r="10" fill="#FFFFFF" fill-opacity=".92"/>
+    <circle cx="160" cy="391" r="10" fill="#FFFFFF" fill-opacity=".92"/>
+    <path d="M220 190h133M220 244h133M220 298h104M220 352h119" stroke="url(#rule)" stroke-linecap="round" stroke-width="13"/>
+    <path d="m364 116 10-25 10 25 25 10-25 10-10 25-10-25-25-10 25-10Z" fill="url(#spark)" stroke="#FFFFFF" stroke-opacity=".86" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="350" cy="160" r="7" fill="#FF7FC8"/>
+    <circle cx="376" cy="176" r="5" fill="#63DFF4"/>
+  </g>
+</svg>

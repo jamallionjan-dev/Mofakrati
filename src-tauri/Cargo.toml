@@ -1,6 +1,6 @@
 [package]
 name = "mufakkirati"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Tauri App"
 authors = ["you"]
 license = ""
@@ -18,7 +18,10 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2.7.4", features = [] }
 
 [dependencies]
+tauri-winrt-notification = "0.8.1"
+windows = { version = "0.62.2", features = ["Data_Xml_Dom", "UI_Notifications"] }
 serde_json = "1.0"
+base64 = "0.22"
 serde = { version = "1.0", features = ["derive"] }
 log = "0.4"
 tauri = { version = "2.12.5", features = ["tray-icon"] }
@@ -27,8 +30,10 @@ tauri-plugin-store = "2.5.0"
 tauri-plugin-updater = "2.14.1"
 tauri-plugin-process = "2.4.0"
 tauri-plugin-window-state = "2.5.0"
-tauri-plugin-single-instance = "2.5.5"
+tauri-plugin-single-instance = { version = "2.5.5", features = ["deep-link"] }
+tauri-plugin-deep-link = "2.6.3"
 tauri-plugin-sql = { version = "2.6.0", features = ["sqlite"] }
 sqlx = { version = "0.8.6", features = ["runtime-tokio", "sqlite"] }
 tauri-plugin-dialog = "2"
 tauri-plugin-opener = "2"
+tauri-plugin-notification = "2"
