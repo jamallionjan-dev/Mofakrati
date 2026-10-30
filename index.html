@@ -1200,6 +1200,9 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
 <div id="floatingOrb"><div id="orbDragHandle" title="اسحب للتحريك">•••</div><button type="button" id="orbRestore" title="استعادة مفكرتي">📝</button><button type="button" id="orbQuickCapture" title="التقاط سريع">＋</button></div>
 <script>
   const boardEl = document.getElementById('board');
+  // Do not accept card actions until desktop.js has reconciled local state with SQLite.
+  boardEl.inert = true;
+  boardEl.setAttribute('aria-busy', 'true');
   const shell = document.getElementById('shell');
   const toast = document.getElementById('toast');
 
@@ -1526,11 +1529,13 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
       const copy=el.querySelector('.note-copy');
       if(copy)copy.onclick=async e=>{
         e.stopPropagation();
-        if(copy.disabled)return;
+        if(copy.disabled||window.__desktopHydrationReady!==true)return;
         const loc=findNoteLocation(noteId);if(!loc)return;
         copy.disabled=true;
         copy.setAttribute('aria-busy','true');
         const cloned=[];
+        let copyId='';
+        let inserted=false;
         try{
           for(const a of (loc.note.attachments||[])){
             if(!a?.path)throw new Error('attachment path is missing');
@@ -1540,22 +1545,27 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
           }
           const source=findNoteLocation(noteId);if(!source)throw new Error('source note disappeared');
           const n={...structuredClone(source.note),id:id(),links:(source.note.links||[]).filter(linkId=>linkId!==source.note.id),nextStep:{text:source.note.nextStep?.text||'',done:false},attachments:cloned,reminderAt:"",reminderFired:false};
+          copyId=n.id;
           source.arr.splice(source.index+1,0,n);
-          const cardHost=document.createElement('div');
-          cardHost.innerHTML=renderNote(n);
-          const newCard=cardHost.firstElementChild;
-          el.after(newCard);
-          wireCardActions();
-          wireAttachmentOpeners();
-          hydrateAttachmentPreviews();
-          wireDragAndDrop();
-          updateCounts();
-          applySearch();
+          inserted=true;
           saveState();
+          if(typeof window.__desktopPersistNow!=='function')throw new Error('durable save is unavailable');
+          await window.__desktopPersistNow(structuredClone(state));
+          renderBoard();
           showToast((window.__t||((k)=>k))('noteCopied'));
         }catch(error){
           console.error('note-copy',error);
-          for(const a of cloned)window.__desktopDiscardAttachment?.(a.path);
+          if(inserted){
+            const copyLoc=findNoteLocation(copyId);
+            if(copyLoc)copyLoc.arr.splice(copyLoc.index,1);
+            localStorage.setItem('jamal-notes-prototype-v2',JSON.stringify(state));
+            try{
+              if(typeof window.__desktopPersistNow==='function')await window.__desktopPersistNow(structuredClone(state));
+              else saveState();
+            }catch(rollbackError){console.error('note-copy-rollback',rollbackError)}
+            renderBoard();
+          }
+          await Promise.all(cloned.map(a=>Promise.resolve(window.__desktopDiscardAttachment?.(a.path)).catch(cleanupError=>console.error('note-copy-attachment-cleanup',cleanupError))));
           showToast((window.__t||((k)=>k))('copyFailed'));
         }finally{
           if(copy.isConnected){copy.disabled=false;copy.removeAttribute('aria-busy');}

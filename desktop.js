@@ -82,17 +82,18 @@ function applyCanonicalReminders(source,target){
 }
 
 async function persistStateCore(state){
+ await ensure();
+ const canonical=await invoke("persist_state_atomic",{state});
+ const saved=canonical&&typeof canonical==="object"?canonical:state;
+
+ applyCanonicalReminders(saved,state);
+ if(window.__notebookState){
+  applyCanonicalReminders(saved,window.__notebookState);
+  localStorage.setItem("jamal-notes-prototype-v2",JSON.stringify(window.__notebookState));
+ }
+
+ // The SQLite write above is authoritative; settings/statistics are secondary metadata.
  try{
-  await ensure();
-  const canonical=await invoke("persist_state_atomic",{state});
-  const saved=canonical&&typeof canonical==="object"?canonical:state;
-
-  applyCanonicalReminders(saved,state);
-  if(window.__notebookState){
-   applyCanonicalReminders(saved,window.__notebookState);
-   localStorage.setItem("jamal-notes-prototype-v2",JSON.stringify(window.__notebookState));
-  }
-
   await store.set("theme",saved.theme||"blue");
   await store.set("notebookName",saved.notebookName||"");
   await store.set("profileImage",saved.profileImage||"");
@@ -103,13 +104,10 @@ async function persistStateCore(state){
   const ns=await db.select("SELECT COUNT(*) AS n FROM notes");
   const ts=await db.select("SELECT COUNT(*) AS n FROM note_tags");
   await store.set("dbStats",{columns:Number(cs[0]?.n||0),notes:Number(ns[0]?.n||0),tags:Number(ts[0]?.n||0),checkedAt:new Date().toISOString()});
+ }catch(e){console.error("persistMetadata",e)}
 
-  queueReminderTaskSync(saved);
-  return saved;
- }catch(e){
-  console.error("persistState",e);
-  return state;
- }
+ queueReminderTaskSync(saved);
+ return saved;
 }
 
 function persistState(state,useLive=true){
@@ -125,7 +123,11 @@ function persistState(state,useLive=true){
 }
 window.__desktopSave=state=>{
  clearTimeout(timer);
- timer=setTimeout(()=>persistState(structuredClone(window.__notebookState||state)),180);
+ timer=setTimeout(()=>persistState(structuredClone(window.__notebookState||state)).catch(e=>console.error("persistState",e)),180);
+};
+window.__desktopPersistNow=state=>{
+ clearTimeout(timer);
+ return persistState(structuredClone(state),false);
 };
 
 window.__desktopPickAttachment=async()=>{
@@ -221,7 +223,14 @@ window.__desktopRestoreBackup=async()=>{
 };
 
 window.__desktopHydrationReady=false;
+function finishHydration(){
+ window.__desktopHydrationReady=true;
+ const board=document.getElementById("board");
+ if(board){board.inert=false;board.removeAttribute("aria-busy")}
+ window.renderBoard?.();
+}
 async function hydrate(){
+ window.__desktopHydrationReady=false;
  try{
   await ensure();
   const persisted=await invoke("load_persisted_state");
@@ -241,10 +250,10 @@ async function hydrate(){
    }
   }
   if(window.__notebookState)await persistState(window.__notebookState);
-  window.__desktopHydrationReady=true;
+  finishHydration();
  }catch(e){
   console.error("hydrate",e);
-  window.__desktopHydrationReady=true;
+  finishHydration();
  }
 }
 
