@@ -384,6 +384,7 @@
     animation:cardIn .34s ease;
   }
   .note:hover{transform:translateY(-3px) scale(1.006);box-shadow:0 16px 34px rgba(62,88,130,.16)}
+  .note.note-copy-inserted{animation:none!important}
   .note.dragging{
     opacity:.34;
     transform:scale(.965) rotate(.35deg);
@@ -1418,8 +1419,8 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
   }
   const attachmentPreviewCache=new Map();
   const attachmentPreviewRequests=new Map();
-  async function hydrateAttachmentPreviews(){
-    const images=[...document.querySelectorAll('img[data-attachment-preview]')];
+  async function hydrateAttachmentPreviews(root=document){
+    const images=[...root.querySelectorAll('img[data-attachment-preview]')];
     await Promise.all(images.map(async img=>{
       if(img.dataset.previewLoaded==='1'&&img.complete&&img.naturalWidth>0)return;
       const path=img.dataset.attachmentPreview;
@@ -1498,8 +1499,8 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
     });
   }
 
-  function wireAttachmentOpeners(){
-    document.querySelectorAll('.note-attachment').forEach(el=>{
+  function wireAttachmentOpeners(root=document){
+    root.querySelectorAll('.note-attachment').forEach(el=>{
       el.style.cursor='pointer';
       el.onclick=e=>{
         e.stopPropagation();
@@ -1518,8 +1519,9 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
     return null;
   }
 
-  function wireCardActions(){
-    document.querySelectorAll('.note').forEach(el=>{
+  function wireCardActions(root=document){
+    const cards=root.matches?.('.note')?[root]:[...root.querySelectorAll('.note')];
+    cards.forEach(el=>{
       const noteId=el.dataset.noteId;
       el.ondblclick=e=>{
         if(e.target.closest('button,.star,.note-attachment,input,textarea,select,a'))return;
@@ -1536,6 +1538,7 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
         const cloned=[];
         let copyId='';
         let inserted=false;
+        let copiedCard=null;
         try{
           for(const a of (loc.note.attachments||[])){
             if(!a?.path)throw new Error('attachment path is missing');
@@ -1551,7 +1554,9 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
           saveState();
           if(typeof window.__desktopPersistNow!=='function')throw new Error('durable save is unavailable');
           await window.__desktopPersistNow(structuredClone(state));
-          renderBoard();
+          copiedCard=insertNoteCard(n,source.colId);
+          updateCounts();
+          applySearch();
           showToast((window.__t||((k)=>k))('noteCopied'));
         }catch(error){
           console.error('note-copy',error);
@@ -1563,7 +1568,9 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
               if(typeof window.__desktopPersistNow==='function')await window.__desktopPersistNow(structuredClone(state));
               else saveState();
             }catch(rollbackError){console.error('note-copy-rollback',rollbackError)}
-            renderBoard();
+            copiedCard?.remove();
+            updateCounts();
+            applySearch();
           }
           await Promise.all(cloned.map(a=>Promise.resolve(window.__desktopDiscardAttachment?.(a.path)).catch(cleanupError=>console.error('note-copy-attachment-cleanup',cleanupError))));
           showToast((window.__t||((k)=>k))('copyFailed'));
@@ -1623,6 +1630,30 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
       if(addStep)addStep.onclick=e=>{e.stopPropagation();const loc=findNoteLocation(noteId);if(loc)openNoteModal(loc.colId,loc.note)};
     });
   }
+  function insertNoteCard(note,colId){
+    const column=[...boardEl.querySelectorAll('.column')].find(el=>el.dataset.column===colId);
+    const zone=column?.querySelector('.cards');
+    if(!zone)throw new Error('target column is not visible');
+    const template=document.createElement('template');
+    template.innerHTML=renderNote(note).trim();
+    const card=template.content.firstElementChild;
+    if(!card)throw new Error('copied card could not be rendered');
+    card.classList.add('note-copy-inserted');
+
+    const notes=state.notes[colId]||[];
+    const ordered=state.sortMode==='smart'?smartSortedNotes(notes):notes;
+    const index=ordered.findIndex(item=>item.id===note.id);
+    const existingCards=[...zone.querySelectorAll('.note')];
+    const next=index<0?null:ordered.slice(index+1)
+      .map(item=>existingCards.find(el=>el.dataset.noteId===item.id))
+      .find(Boolean)||null;
+    wireCardActions(card);
+    wireAttachmentOpeners(card);
+    void hydrateAttachmentPreviews(card);
+    zone.insertBefore(card,next);
+    return card;
+  }
+
   function getNoteById(id){
     for(const col of state.columns){
       const note = (state.notes[col.id]||[]).find(n=>n.id===id);
