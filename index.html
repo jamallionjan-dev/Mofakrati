@@ -455,6 +455,7 @@
   .modal-backdrop{
     position:fixed;inset:0;background:rgba(20,33,61,.18);
     backdrop-filter:blur(8px);display:none;place-items:center;z-index:60;
+    overflow-y:auto;padding:12px;box-sizing:border-box;
   }
   .modal-backdrop.open{display:grid}
   .modal{
@@ -463,6 +464,18 @@
     background:rgba(255,255,255,.84);
     border:1px solid rgba(255,255,255,.95);
     box-shadow:0 24px 80px rgba(36,56,95,.25);
+    box-sizing:border-box;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain;
+  }
+  #noteModal{align-items:start;}
+  #noteModal>.modal{display:flex;flex-direction:column;height:min(680px,calc(100vh - 24px));max-height:calc(100vh - 24px);overflow:hidden;}
+  #noteModalTitle,#noteModal .modal-actions{flex:none;}
+  #noteModal .note-modal-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-inline:2px;}
+  @media(max-height:680px){
+    #noteModal{padding:8px;}
+    #noteModal>.modal{height:min(680px,calc(100vh - 16px));max-height:calc(100vh - 16px);padding:14px;border-radius:18px;}
+    #noteModal .field{margin:6px 0;}
+    #noteModal .field textarea{min-height:82px;}
+    #noteModal .modal-actions{margin-top:8px;}
   }
   .modal h3{margin:0 0 16px}
   .field{margin:10px 0}
@@ -1076,6 +1089,7 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
 <div class="modal-backdrop" id="noteModal">
   <div class="modal">
     <h3 id="noteModalTitle">إضافة ملاحظة جديدة</h3>
+    <div class="note-modal-body">
     <div class="field"><label id="lblNoteTitle">العنوان</label><input id="noteTitle" placeholder="عنوان الملاحظة" /></div>
     <div class="field"><label id="lblNoteText">المحتوى</label><textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea></div>
     <div class="note-link-suggestions" id="noteLinkSuggestions" hidden></div>
@@ -1091,6 +1105,7 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
     </div>
     <div class="field"><label id="lblNoteTags"></label><input id="noteTags" placeholder="work, idea, personal" /></div>    <div class="field"><label id="lblNoteReminder">&#x23F0; &#x0627;&#x0644;&#x0645;&#x0646;&#x0628;&#x0647;</label><div style="display:flex;gap:8px;align-items:center"><input id="noteReminder" type="datetime-local" style="flex:1"/><button class="secondary" type="button" id="clearReminderBtn">&#x0645;&#x0633;&#x062d;</button></div></div>
     <div class="field"><label id="lblNoteAttachments">&#x0627;&#x0644;&#x0645;&#x0631;&#x0641;&#x0642;&#x0627;&#x062a;</label><div class="attachment-picker-row"><button class="secondary" type="button" id="addAttachmentBtn">&#x1F4CE; &#x0625;&#x0631;&#x0641;&#x0627;&#x0642; &#x0645;&#x0644;&#x0641;</button></div><div class="attachment-list" id="pendingAttachments"></div></div>
+    </div>
     <div class="modal-actions">
       <button class="primary-btn" id="saveNote">حفظ الملاحظة</button>
       <button class="secondary" id="deleteNote" type="button" style="display:none;color:#c7363c"></button>
