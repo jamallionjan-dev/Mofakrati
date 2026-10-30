@@ -385,7 +385,6 @@
   }
   .note:hover{transform:translateY(-3px) scale(1.006);box-shadow:0 16px 34px rgba(62,88,130,.16)}
   .note.note-copy-inserted{animation:none!important}
-  .note.note-copy-confirmed{outline:2px solid rgba(var(--accent-rgb),.9);outline-offset:2px;box-shadow:0 0 0 6px rgba(var(--accent-rgb),.16),0 16px 34px rgba(62,88,130,.16)}
   .note.dragging{
     opacity:.34;
     transform:scale(.965) rotate(.35deg);
@@ -1532,55 +1531,34 @@ body[data-view-layout="today"] .board,body[data-view-layout="timeline"] .board{d
       const copy=el.querySelector('.note-copy');
       if(copy)copy.onclick=async e=>{
         e.stopPropagation();
-        if(copy.disabled||window.__desktopHydrationReady!==true)return;
+        if(copy.disabled)return;
         const loc=findNoteLocation(noteId);if(!loc)return;
         copy.disabled=true;
         copy.setAttribute('aria-busy','true');
-        const cloned=[];
-        let copyId='';
-        let inserted=false;
-        let copiedCard=null;
         try{
-          if(typeof window.__desktopPersistNow!=='function')throw new Error('durable save is unavailable');
-          for(const a of (loc.note.attachments||[])){
-            if(!a?.path)throw new Error('attachment path is missing');
-            const z=await window.__desktopCloneAttachment?.(a.path);
-            if(!z?.path)throw new Error('attachment clone failed');
-            cloned.push({id:z.id,kind:z.kind,path:z.path,displayName:z.display_name||z.displayName||a.displayName||''});
+          const note=loc.note;
+          const text=[
+            note.title,
+            note.text,
+            note.nextStep?.text?`الخطوة التالية: ${note.nextStep.text}`:'',
+            note.chips?.length?`التصنيفات: ${note.chips.join(', ')}`:'',
+            note.links?.length?`روابط الملاحظات: ${note.links.map(getNoteById).filter(Boolean).map(n=>n.title).join(', ')}`:'',
+            note.priority?`الأولوية: ${(window.__t||((k)=>k))(note.priority)}`:'',
+            note.reminderAt?`التذكير: ${new Date(note.reminderAt).toLocaleString()}`:'',
+            note.rating?`التقييم: ${note.rating}/5`:'',
+            note.attachments?.length?`المرفقات: ${note.attachments.map(a=>a.displayName).filter(Boolean).join(', ')}`:''
+          ].filter(Boolean).join('\n\n');
+          if(!text)throw new Error('note has no copyable content');
+          if(window.__TAURI_INTERNALS__?.invoke){
+            await window.__TAURI_INTERNALS__.invoke('copy_text_to_clipboard',{text});
+          }else if(navigator.clipboard?.writeText){
+            await navigator.clipboard.writeText(text);
+          }else{
+            throw new Error('clipboard API is unavailable');
           }
-          const source=findNoteLocation(noteId);if(!source)throw new Error('source note disappeared');
-          const n={...structuredClone(source.note),id:id(),links:(source.note.links||[]).filter(linkId=>linkId!==source.note.id),nextStep:{text:source.note.nextStep?.text||'',done:false},attachments:cloned,reminderAt:"",reminderFired:false};
-          copyId=n.id;
-          source.arr.splice(source.index+1,0,n);
-          inserted=true;
-          copiedCard=insertNoteCard(n,source.colId);
-          updateCounts();
-          applySearch();
-          const hidden=copiedCard.style.display==='none';
-          if(!hidden){
-            copiedCard.scrollIntoView({block:'nearest',behavior:'smooth'});
-            copiedCard.classList.add('note-copy-confirmed');
-            setTimeout(()=>copiedCard?.classList.remove('note-copy-confirmed'),1800);
-          }
-          showToast((window.__t||((k)=>k))('noteCopySaving'));
-          saveState();
-          await window.__desktopPersistNow(structuredClone(state));
-          showToast((window.__t||((k)=>k))(hidden?'noteCopiedHidden':'noteCopied'));
+          showToast((window.__t||((k)=>k))('noteContentCopied'));
         }catch(error){
-          console.error('note-copy',error);
-          if(inserted){
-            const copyLoc=findNoteLocation(copyId);
-            if(copyLoc)copyLoc.arr.splice(copyLoc.index,1);
-            localStorage.setItem('jamal-notes-prototype-v2',JSON.stringify(state));
-            try{
-              if(typeof window.__desktopPersistNow==='function')await window.__desktopPersistNow(structuredClone(state));
-              else saveState();
-            }catch(rollbackError){console.error('note-copy-rollback',rollbackError)}
-            copiedCard?.remove();
-            updateCounts();
-            applySearch();
-          }
-          await Promise.all(cloned.map(a=>Promise.resolve(window.__desktopDiscardAttachment?.(a.path)).catch(cleanupError=>console.error('note-copy-attachment-cleanup',cleanupError))));
+          console.error('note-clipboard-copy',error);
           showToast((window.__t||((k)=>k))('copyFailed'));
         }finally{
           if(copy.isConnected){copy.disabled=false;copy.removeAttribute('aria-busy');}

@@ -1,6 +1,6 @@
 [package]
 name = "mufakkirati"
-version = "0.1.4"
+version = "0.1.5"
 description = "A Tauri App"
 authors = ["you"]
 license = ""
@@ -19,7 +19,7 @@ tauri-build = { version = "2.7.4", features = [] }
 
 [dependencies]
 tauri-winrt-notification = "0.8.1"
-windows = { version = "0.62.2", features = ["Data_Xml_Dom", "UI_Notifications"] }
+windows = { version = "0.62.2", features = ["Data_Xml_Dom", "UI_Notifications", "Win32_System_DataExchange", "Win32_System_Memory"] }
 serde_json = "1.0"
 base64 = "0.22"
 serde = { version = "1.0", features = ["derive"] }

@@ -73,6 +73,90 @@ fn window_action(a: tauri::AppHandle, action: String) -> Result<(), String> {
         _ => Ok(()),
     }
 }
+
+#[tauri::command]
+fn copy_text_to_clipboard(text: String) -> Result<(), String> {
+    #[cfg(windows)]
+    {
+        use std::{ffi::c_void, mem::size_of, ptr::copy_nonoverlapping, thread, time::Duration};
+        use windows::Win32::{
+            Foundation::HANDLE,
+            System::{
+                DataExchange::{CloseClipboard, EmptyClipboard, OpenClipboard, SetClipboardData},
+                Memory::{GlobalAlloc, GlobalLock, GlobalUnlock, GMEM_MOVEABLE},
+            },
+        };
+
+        let mut last_error = String::from("Windows clipboard is busy");
+        for _ in 0..5 {
+            unsafe {
+                let opened = OpenClipboard(None);
+                if opened.is_ok() {
+                    let result = (|| -> Result<(), String> {
+                        EmptyClipboard().map_err(|e| e.to_string())?;
+                        let utf16: Vec<u16> = text.encode_utf16().chain(std::iter::once(0)).collect();
+                        let bytes = utf16.len() * size_of::<u16>();
+                        let memory = GlobalAlloc(GMEM_MOVEABLE, bytes).map_err(|e| e.to_string())?;
+                        let destination = GlobalLock(memory);
+                        if destination.is_null() {
+                            return Err("Could not allocate clipboard memory".into());
+                        }
+                        copy_nonoverlapping(utf16.as_ptr(), destination.cast::<u16>(), utf16.len());
+                        let _ = GlobalUnlock(memory);
+                        SetClipboardData(13, Some(HANDLE(memory.0 as *mut c_void))).map_err(|e| e.to_string())?;
+                        Ok(())
+                    })();
+                    let _ = CloseClipboard();
+                    return result;
+                }
+                last_error = opened.err().map(|e| e.to_string()).unwrap_or(last_error);
+            }
+            thread::sleep(Duration::from_millis(30));
+        }
+        return Err(last_error);
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = text;
+        Err("System clipboard copy is not configured for this platform".into())
+    }
+}
+
+#[cfg(all(test, windows))]
+mod clipboard_tests {
+    use super::copy_text_to_clipboard;
+    use windows::Win32::System::{
+        DataExchange::{CloseClipboard, GetClipboardData, OpenClipboard},
+    };
+    use windows::Win32::Foundation::HGLOBAL;
+    use windows::Win32::System::Memory::{GlobalLock, GlobalUnlock};
+
+    #[test]
+    fn copies_arabic_multiline_note_text_to_windows_clipboard() {
+        let expected = "خطة الدراسة\n\nمراجعة الفيزياء والكيمياء\n\nالخطوة التالية: حل 20 سؤالًا";
+        copy_text_to_clipboard(expected.to_string()).expect("clipboard write should succeed");
+        unsafe {
+            OpenClipboard(None).expect("clipboard should reopen");
+            let result = (|| {
+                let data = GetClipboardData(13).expect("CF_UNICODETEXT should exist");
+                let memory = HGLOBAL(data.0);
+                let ptr = GlobalLock(memory);
+                assert!(!ptr.is_null());
+                let mut length = 0;
+                while *ptr.cast::<u16>().add(length) != 0 {
+                    length += 1;
+                }
+                let actual = String::from_utf16(std::slice::from_raw_parts(ptr.cast::<u16>(), length))
+                    .expect("clipboard should contain valid UTF-16");
+                let _ = GlobalUnlock(memory);
+                assert_eq!(actual, expected);
+            })();
+            let _ = CloseClipboard();
+            result;
+        }
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let m = vec![
@@ -147,6 +231,7 @@ pub fn run() {
             ack_pending_open_note,
             hide_main_window,
             window_action,
+            copy_text_to_clipboard,
             persistence::load_persisted_state,
             persistence::persist_state_atomic,
             reminder_scheduler::sync_reminder_tasks,
